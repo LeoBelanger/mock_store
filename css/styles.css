@@ -1,3 +1,7 @@
+#header {
+	background-color: #000080;
+}
+
 #logo {
 	height: 200;
 	width: 17%;
@@ -18,4 +22,31 @@
 
 body {
 	margin: 0;
+	color: #ffffff;
 }
+
+#menu {
+	margin-top: 0;
+	width: 17%;
+	list-style: none;
+	padding: 2%;
+}
+
+.menuItem {
+	font-family: "Verdana";
+	padding-top: 15;
+	height: 35;
+	margin-top: 10;
+	background-color: #000080;
+	text-align: center;
+
+}
+
+
+
+
+
+
+
+
+	
