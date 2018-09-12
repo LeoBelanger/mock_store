@@ -29,6 +29,7 @@ body {
 	width: 17%;
 	list-style: none;
 	padding: 2%;
+	
 }
 
 .menuItem {
@@ -46,7 +47,20 @@ body {
 	color: black;
 }
 
+ul {
+	display: inline-block;
+}
 
+
+#productList {
+	list-style: none;
+	position: absolute;
+	width: 77%;
+	padding-left: 0;
+	margin-top: 0;
+	padding: 2%;
+	
+}
 
 
 
