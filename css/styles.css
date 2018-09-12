@@ -22,7 +22,6 @@
 
 body {
 	margin: 0;
-	color: #ffffff;
 }
 
 #menu {
@@ -39,9 +38,13 @@ body {
 	margin-top: 10;
 	background-color: #000080;
 	text-align: center;
-
+	color: #ffffff;
 }
 
+.menuItem:hover {
+	background-color: #B5D3E7;
+	color: black;
+}
 
 
 
