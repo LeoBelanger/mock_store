@@ -1,9 +1,22 @@
 #logo {
 	height: 200;
-	width: 200;
+	width: 170;
+	margin-right: -4;
+	padding-left: 20;
+	padding-top: 20;
+	padding-right: 10;
+	padding-bottom: 20;
 }
 
 #banner {
 	height: 200;
-	width: 450;
+	width: 770;
+	padding-left: 10;
+	padding-top: 20;
+	padding-right: 20;
+	padding-bottom: 20;
+}
+
+body {
+	margin: 0;
 }
