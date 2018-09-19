@@ -9,7 +9,15 @@
 	padding-top: 2%;
 	padding-right: 1%;
 	padding-bottom: 2%;
+	margin-bottom: 0%;
+	
 }
+
+#content {
+	min-height: 100%;
+	vertical-align: top;
+	width:100%;
+}	
 
 #banner {
 	height: 200;
@@ -22,6 +30,7 @@
 
 body {
 	margin: 0;
+	display: inline-block;
 }
 
 #menu {
@@ -29,6 +38,7 @@ body {
 	width: 17%;
 	list-style: none;
 	padding: 2%;
+	vertical-align: top;
 	
 }
 
@@ -42,8 +52,10 @@ body {
 	color: #ffffff;
 }
 
+
+
 .menuItem:hover {
-	background-color: #B5D3E7;
+	background-color: #98AFC7;
 	color: black;
 }
 
@@ -54,14 +66,12 @@ ul {
 
 #productList {
 	list-style: none;
-	position: absolute;
-	width: 77%;
+	width: 76%;
 	padding-left: 2%;
 	padding-right: 0;
 	padding-top: 2%;
 	padding-bottom: 2%;
 	margin-top: 0;
-	
 }
 
 .product {
@@ -110,6 +120,14 @@ ul {
 	opacity: 1;
 }
 
-
+#footer {
+	
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 1rem;
+	text-align: center;
+	background-color: 000000;
+}
 
 	
