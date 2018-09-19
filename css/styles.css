@@ -1,5 +1,6 @@
 #header {
 	background-color: #000080; 
+	width: 1000px;
 }
 
 #logo {
@@ -23,12 +24,13 @@
 
 body {
 	margin: 0;
+	width: 1000px;
 }
 
 #content {
 	min-height: 100%;
 	vertical-align: top;
-	width: 100%;
+	width: 1000px;
 }	
 
 ul {
@@ -116,10 +118,12 @@ ul {
 }
 
 #footer {
+	width: 1000px;
 	right: 0;
 	bottom: 0;
 	left: 0;
-	padding: 1rem;
+	padding-top: 15px;
+	padding-bottom: 15px;
 	text-align: center;
 	background-color: #000080;
 	color: white;
