@@ -78,6 +78,11 @@ ul {
 	position: relative;
 }
 
+.product:hover {
+	background-color: #98AFC7;
+	color: black;
+}
+
 .product img {
 	max-height: 200;
 	max-width: 200;
@@ -91,12 +96,13 @@ ul {
 	background: rgb(0, 0, 0);
 	background: rgba(0, 0, 0, 0.5);
 	color: #f1f1f1;
-	width: 100%;
+	width: 80%;
+	margin-left:10%;
 	transition: .5s ease;
 	opacity: 0;
 	color: white;
 	font-size: 25px;
-	height: 50px;
+	height: 40px;
 	text-align: center;
 }
 
