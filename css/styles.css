@@ -1,5 +1,5 @@
 #header {
-	background-color: #000080;
+	background-color: #000080; 
 }
 
 #logo {
@@ -10,14 +10,7 @@
 	padding-right: 1%;
 	padding-bottom: 2%;
 	margin-bottom: 0%;
-	
 }
-
-#content {
-	min-height: 100%;
-	vertical-align: top;
-	width:100%;
-}	
 
 #banner {
 	height: 200;
@@ -30,16 +23,24 @@
 
 body {
 	margin: 0;
+}
+
+#content {
+	min-height: 100%;
+	vertical-align: top;
+	width: 100%;
+}	
+
+ul {
 	display: inline-block;
 }
 
 #menu {
 	margin-top: 0;
 	width: 17%;
-	list-style: none;
+	list-style: none; /* get rid of bullet points */
 	padding: 2%;
 	vertical-align: top;
-	
 }
 
 .menuItem {
@@ -52,17 +53,10 @@ body {
 	color: #ffffff;
 }
 
-
-
 .menuItem:hover {
 	background-color: #98AFC7;
 	color: black;
 }
-
-ul {
-	display: inline-block;
-}
-
 
 #productList {
 	list-style: none;
@@ -96,8 +90,8 @@ ul {
 .product img {
 	max-height: 200;
 	max-width: 200;
-	height:80%;
-	width:80%;
+	height: 80%;
+	width: 80%;
 }
 
 .priceOverlay {
@@ -112,7 +106,8 @@ ul {
 	opacity: 0;
 	color: white;
 	font-size: 25px;
-	height: 40px;
+	font-family: "Verdana";
+	height: 32px;
 	text-align: center;
 }
 
@@ -121,13 +116,14 @@ ul {
 }
 
 #footer {
-	
 	right: 0;
 	bottom: 0;
 	left: 0;
 	padding: 1rem;
 	text-align: center;
-	background-color: 000000;
+	background-color: #000080;
+	color: white;
+	font-family: "Verdana";
 }
 
 	
