@@ -23,16 +23,17 @@ function Store(initialStock) {
 	this.stock = initialStock;
 	this.cart = [];
 	this.addItemToCart = function(itemName) {
-		if (itemName in this.cart == false) {
-			this.cart.push(products[itemName]);
-			this.cart[itemName] = 1;
+		if (products[itemName].label in this.cart == false) {
+			this.cart[products[itemName].label] = 1;
 			this.stock[itemName].quantity--; 
+			console.log(this.cart);
 			
 		} else {
 			if(this.stock[itemName].quantity > 0) {
 			//There is still stock left 
-				this.cart[itemName]++;
+				this.cart[products[itemName].label]++;
 				this.stock[itemName].quantity--;
+				console.log(this.cart);
 			} else {
 			//There's no stock left of this item.
 				console.log("There is no stock left!");
@@ -42,17 +43,37 @@ function Store(initialStock) {
 	
 	
 	this.removeItemFromCart = function(itemName) {
-		if (itemName in this.cart) {
-			if (this.cart[itemName] > 1) {
-				this.cart[itemName]--;
+		if (products[itemName].label in this.cart) {
+			if (this.cart[products[itemName].label] > 1) {
+				this.cart[products[itemName].label]--;
 				this.stock[itemName].quantity++;
+				console.log(this.cart);
 			} else {
-				this.cart[itemName] == 1;
+				this.cart[products[itemName].label] == 1;
 				this.stock[itemName].quantity++;
-				delete this.cart[itemName];
+				delete this.cart[products[itemName].label];
+				console.log(this.cart);
 			} 
 		} else {
 			console.log("Empty cart");
 		}
 	}
 }
+
+function showCart(cart) {
+	var string = "";
+	
+	itemsInCart = Object.entries(cart);
+	
+	for(var i = 0; i < itemsInCart.length; i++) {
+		string = string.concat(itemsInCart[i] + "\n");
+		string = string.replace(",", ": ");
+	}
+	alert(string);
+}
+
+
+
+
+
+
