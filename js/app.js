@@ -23,7 +23,6 @@ function Store(initialStock) {
 	this.stock = initialStock;
 	this.cart = [];
 	this.addItemToCart = function(itemName) {
-		console.log(typeof(itemName));
 		if (itemName in this.cart == false) {
 			this.cart.push(products[itemName]);
 			this.cart[itemName] = 1;
@@ -42,6 +41,18 @@ function Store(initialStock) {
 	}
 	
 	
-	this.removeItemFromCart = function() {
+	this.removeItemFromCart = function(itemName) {
+		if (itemName in this.cart) {
+			if (this.cart[itemName] > 1) {
+				this.cart[itemName]--;
+				this.stock[itemName].quantity++;
+			} else {
+				this.cart[itemName] == 1;
+				this.stock[itemName].quantity++;
+				delete this.cart[itemName];
+			} 
+		} else {
+			console.log("Empty cart");
+		}
 	}
 }
