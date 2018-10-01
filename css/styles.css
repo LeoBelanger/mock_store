@@ -130,4 +130,23 @@ ul {
 	font-family: "Verdana";
 }
 
-	
+.btn-add {
+	position: absolute;
+	top: 0%;
+	opacity: 0;
+}
+
+.product:hover .btn-add {
+	opacity: 1;
+}
+
+.btn-remove {
+	position: absolute;
+	top: 0%;
+	right: 0;
+	opacity: 0;
+}
+
+.product:hover .btn-remove {
+	opacity: 1;
+}	

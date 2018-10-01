@@ -61,11 +61,7 @@ var products = {
 	}
 };
 
-var test = Object.create( products );
-
-
-console.log(test.PC3_$300.price);
-console.log(test.Tent_$100.label);
+var store = new Store(products);
 
 function Store(initialStock) {	
 	this.stock = initialStock;
