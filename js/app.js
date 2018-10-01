@@ -13,16 +13,15 @@ var products = {
 	Tent_$100: {label: "Tent", imageUrl: "images/Tent_$100.png", price: 100, quantity: 5},
 };
 
-//console.log(products.Box1_$10);
-
 var store = new Store(products);
 
-console.log(store.stock);
+var inactiveTime = 0; 
 
 function Store(initialStock) {	
 	this.stock = initialStock;
 	this.cart = [];
 	this.addItemToCart = function(itemName) {
+		inactiveTime = 0;
 		if (products[itemName].label in this.cart == false) {
 			this.cart[products[itemName].label] = 1;
 			this.stock[itemName].quantity--; 
@@ -43,6 +42,7 @@ function Store(initialStock) {
 	
 	
 	this.removeItemFromCart = function(itemName) {
+		inactiveTime = 0;
 		if (products[itemName].label in this.cart) {
 			if (this.cart[products[itemName].label] > 1) {
 				this.cart[products[itemName].label]--;
@@ -61,6 +61,7 @@ function Store(initialStock) {
 }
 
 function showCart(cart) {
+	inactiveTime = 0;
 	var string = "";
 	
 	itemsInCart = Object.entries(cart);
@@ -72,8 +73,14 @@ function showCart(cart) {
 	alert(string);
 }
 
+var second = setInterval(increment, 1000);
 
-
-
-
-
+function increment() {
+	inactiveTime++;
+	console.log(inactiveTime);
+	
+	if (inactiveTime == 30) {
+		alert("Hey there! Are you still planning to buy something?");
+		inactiveTime = 0;
+	}
+}
