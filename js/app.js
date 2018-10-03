@@ -20,43 +20,42 @@ var inactiveTime = 0;
 function Store(initialStock) {	
 	this.stock = initialStock;
 	this.cart = [];
-	this.addItemToCart = function(itemName) {
-		inactiveTime = 0;
-		if (products[itemName].label in this.cart == false) {
-			this.cart[products[itemName].label] = 1;
-			this.stock[itemName].quantity--; 
+}
+
+Store.prototype.addItemToCart = function(itemName) {
+	inactiveTime = 0;
+	if (products[itemName].label in this.cart == false) {
+		this.cart[products[itemName].label] = 1;
+		this.stock[itemName].quantity--; 
+		console.log(this.cart);			
+	} else {
+		if(this.stock[itemName].quantity > 0) {
+		//There is still stock left 
+			this.cart[products[itemName].label]++;
+			this.stock[itemName].quantity--;
 			console.log(this.cart);
-			
 		} else {
-			if(this.stock[itemName].quantity > 0) {
-			//There is still stock left 
-				this.cart[products[itemName].label]++;
-				this.stock[itemName].quantity--;
-				console.log(this.cart);
-			} else {
-			//There's no stock left of this item.
-				console.log("There is no stock left!");
-			}
+		//There's no stock left of this item.
+			console.log("There is no stock left!");
 		}
 	}
+}
 	
-	
-	this.removeItemFromCart = function(itemName) {
-		inactiveTime = 0;
-		if (products[itemName].label in this.cart) {
-			if (this.cart[products[itemName].label] > 1) {
-				this.cart[products[itemName].label]--;
-				this.stock[itemName].quantity++;
-				console.log(this.cart);
-			} else {
-				this.cart[products[itemName].label] == 1;
-				this.stock[itemName].quantity++;
-				delete this.cart[products[itemName].label];
-				console.log(this.cart);
-			} 
+Store.prototype.removeItemFromCart = function(itemName) {
+	inactiveTime = 0;
+	if (products[itemName].label in this.cart) {
+		if (this.cart[products[itemName].label] > 1) {
+			this.cart[products[itemName].label]--;
+			this.stock[itemName].quantity++;
+			console.log(this.cart);
 		} else {
-			console.log("Empty cart");
-		}
+			this.cart[products[itemName].label] == 1;
+			this.stock[itemName].quantity++;
+			delete this.cart[products[itemName].label];
+			console.log(this.cart);
+		} 
+	} else {
+		console.log("Empty cart");
 	}
 }
 
