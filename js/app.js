@@ -24,14 +24,14 @@ function Store(initialStock) {
 
 Store.prototype.addItemToCart = function(itemName) {
 	inactiveTime = 0;
-	if (products[itemName].label in this.cart == false) {
-		this.cart[products[itemName].label] = 1;
+	if (this.stock[itemName].label in this.cart == false) {
+		this.cart[this.stock[itemName].label] = 1;
 		this.stock[itemName].quantity--; 
 		console.log(this.cart);			
 	} else {
 		if(this.stock[itemName].quantity > 0) {
 		//There is still stock left 
-			this.cart[products[itemName].label]++;
+			this.cart[this.stock[itemName].label]++;
 			this.stock[itemName].quantity--;
 			console.log(this.cart);
 		} else {
@@ -43,15 +43,15 @@ Store.prototype.addItemToCart = function(itemName) {
 	
 Store.prototype.removeItemFromCart = function(itemName) {
 	inactiveTime = 0;
-	if (products[itemName].label in this.cart) {
-		if (this.cart[products[itemName].label] > 1) {
-			this.cart[products[itemName].label]--;
+	if (this.stock[itemName].label in this.cart) {
+		if (this.cart[this.stock[itemName].label] > 1) {
+			this.cart[this.stock[itemName].label]--;
 			this.stock[itemName].quantity++;
 			console.log(this.cart);
 		} else {
-			this.cart[products[itemName].label] == 1;
+			this.cart[this.stock[itemName].label] == 1;
 			this.stock[itemName].quantity++;
-			delete this.cart[products[itemName].label];
+			delete this.cart[this.stock[itemName].label];
 			console.log(this.cart);
 		} 
 	} else {
