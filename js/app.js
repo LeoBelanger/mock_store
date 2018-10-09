@@ -70,7 +70,7 @@ function showCart(cart) {
 	console.log(this.cart);
 	for(var i = 0; i < itemsInCart.length; i++) {
 		string = string.concat(itemsInCart[i] + "\n");
-		string = string.replace(",", ": ");
+		string = string.replace(",", " : ");
 	}
 	alert(string);
 }
