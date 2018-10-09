@@ -55,7 +55,7 @@ Store.prototype.removeItemFromCart = function(itemName) {
 			console.log(this.cart);
 		} 
 	} else {
-		console.log("Empty cart");
+		console.log("This item is not in the cart");
 	}
 }
 
