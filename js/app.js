@@ -24,14 +24,17 @@ function Store(initialStock) {
 
 Store.prototype.addItemToCart = function(itemName) {
 	inactiveTime = 0;
-	if (this.stock[itemName].label in this.cart == false) {
-		this.cart[this.stock[itemName].label] = 1;
+	
+	
+	console.log(this.stock);
+	if (itemName in this.cart == false) {
+		this.cart[itemName] = 1;
 		this.stock[itemName].quantity--; 
 		console.log(this.cart);			
 	} else {
 		if(this.stock[itemName].quantity > 0) {
 		//There is still stock left 
-			this.cart[this.stock[itemName].label]++;
+			this.cart[itemName]++;
 			this.stock[itemName].quantity--;
 			console.log(this.cart);
 		} else {
@@ -43,15 +46,15 @@ Store.prototype.addItemToCart = function(itemName) {
 	
 Store.prototype.removeItemFromCart = function(itemName) {
 	inactiveTime = 0;
-	if (this.stock[itemName].label in this.cart) {
-		if (this.cart[this.stock[itemName].label] > 1) {
-			this.cart[this.stock[itemName].label]--;
+	if (itemName in this.cart) {
+		if (this.cart[itemName] > 1) {
+			this.cart[itemName]--;
 			this.stock[itemName].quantity++;
 			console.log(this.cart);
 		} else {
-			this.cart[this.stock[itemName].label] == 1;
+			this.cart[itemName] == 1;
 			this.stock[itemName].quantity++;
-			delete this.cart[this.stock[itemName].label];
+			delete this.cart[itemName];
 			console.log(this.cart);
 		} 
 	} else {
@@ -64,7 +67,7 @@ function showCart(cart) {
 	var string = "";
 	
 	itemsInCart = Object.entries(cart);
-	
+	console.log(this.cart);
 	for(var i = 0; i < itemsInCart.length; i++) {
 		string = string.concat(itemsInCart[i] + "\n");
 		string = string.replace(",", ": ");
