@@ -113,17 +113,19 @@ function increment() {
 		inactiveTime = 0;
 	}
 }
+//console.log(document.getElementById("productView"));
+
+renderProductList(document.getElementById("productView"), store); 
 
 function renderProduct(container, storeInstance, itemName) {
-	var productBox = document.createElement("LI");
 	var addButton = document.createElement("BUTTON");
 	var removeButton = document.createElement("BUTTON");
 	var img = document.createElement("IMG"); 
 	var priceOverlay = document.createElement("DIV");
 	var label = document.createElement("TEXT"); 
 	
-	productBox.setAttribute("class", "product");
-	productBox.setAttribute("id", itemName);
+	container.setAttribute("class", "product");
+	container.setAttribute("id", itemName);
 	addButton.setAttribute("class", "btn-add");
 	addButton.setAttribute("onclick", "store.addItemToCart('" + itemName + "')");
 	addButton.setAttribute("text", "Add to Cart");
@@ -135,15 +137,23 @@ function renderProduct(container, storeInstance, itemName) {
 	priceOverlay.setAttribute("text", "$" + storeInstance.stock[itemName].price);
 	label.setAttribute("text", storeInstance.stock[itemName].label);
 	
-	productBox.appendChild(addButton);
-	productBox.appendChild(removeButton);
-	productBox.appendChild(img);
-	productBox.appendChild(priceOverlay);
-	productBox.appendChild(label);
+	container.appendChild(addButton);
+	container.appendChild(removeButton);
+	container.appendChild(img);
+	container.appendChild(priceOverlay);
+	container.appendChild(label);
 	
-	container = productBox;
+	return container;
 }
 
 function renderProductList(container, storeInstance) {
-	var productList = document.createElement();
+	var productList = document.createElement("UL");
+	productList.setAttribute("id", "productList"); 
+
+	for (var i = 0; i < storeInstance.cart.length; i++) {
+		var productBox = document.createElement("LI");
+		var temp = renderProduct(productBox, storeInstance, storeInstance.cart[i]);
+		productList.appendChild(temp);
+	}
+	container.appendChild(productList);
 }
