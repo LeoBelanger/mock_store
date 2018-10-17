@@ -146,6 +146,7 @@ ul {
 	top: 0%;
 	right: 0;
 	opacity: 0;
+	visibility: hidden;
 }
 
 .product:hover .btn-remove {

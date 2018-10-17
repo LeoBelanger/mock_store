@@ -24,9 +24,8 @@ function Store(initialStock) {
 
 Store.prototype.addItemToCart = function(itemName) {
 	inactiveTime = 0;
-	
-	
 	console.log(this.stock);
+	
 	if (itemName in this.cart == false) {
 		this.cart[itemName] = 1;
 		this.stock[itemName].quantity--; 
@@ -42,10 +41,31 @@ Store.prototype.addItemToCart = function(itemName) {
 			console.log("There is no stock left!");
 		}
 	}
+	
+	/* Hide add if out of stock */
+	if (this.stock[itemName].quantity == 0) {
+		var addButton = document.getElementById(itemName).childNodes[1];
+		console.log(document.getElementById(itemName).childNodes);
+		addButton.style.visibility = "hidden";
+	}
+	
+	/* Regenerate remove button */
+	if (this.cart[itemName] > 0) {
+		var removeButton = document.getElementById(itemName).childNodes[3];
+		console.log(document.getElementById(itemName).childNodes);
+		removeButton.style.visibility = "visible";
+	}
 }
 	
 Store.prototype.removeItemFromCart = function(itemName) {
 	inactiveTime = 0;
+	/* Hide remove if cart quantity is 0 */
+	if (this.cart[itemName] == 1) {
+		var removeButton = document.getElementById(itemName).childNodes[3];
+		console.log(document.getElementById(itemName).childNodes);
+		removeButton.style.visibility = "hidden";
+	}
+	
 	if (itemName in this.cart) {
 		if (this.cart[itemName] > 1) {
 			this.cart[itemName]--;
@@ -59,6 +79,13 @@ Store.prototype.removeItemFromCart = function(itemName) {
 		} 
 	} else {
 		console.log("This item is not in the cart");
+	}
+	
+	/* Regenerate add if cart is full */
+	if (this.stock[itemName].quantity > 0) {
+		var addButton = document.getElementById(itemName).childNodes[1];
+		console.log(document.getElementById(itemName).childNodes);
+		addButton.style.visibility = "visible";
 	}
 }
 
@@ -79,10 +106,18 @@ var second = setInterval(increment, 1000);
 
 function increment() {
 	inactiveTime++;
-	console.log(inactiveTime);
+	//console.log(inactiveTime);
 	
 	if (inactiveTime == 1800) {
 		alert("Hey there! Are you still planning to buy something?");
 		inactiveTime = 0;
 	}
 }
+
+function renderProduct(container, storeInstance, itemName) {
+	var element = document.createElement(itemName);
+	container = element;
+	console.log(container);
+}
+
+//function show
