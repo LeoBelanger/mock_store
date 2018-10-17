@@ -1,16 +1,16 @@
 var products = {
-	Box1: {label: "Box 1", imageUrl: "images/Box1_$10", price: 10, quantity: 5},
-	Box2: {label: "Box 2", imageUrl: "images/Box2_$5", price: 5, quantity: 5},
-	Clothes1: {label: "Clothes 1", imageUrl: "images/Clothes1_$20.png", price: 20, quantity: 5},
-	Clothes2: {label: "Clothes 2", imageUrl: "images/Clothes2_$30.png", price: 30, quantity: 5},
-	Jeans: {label: "Jeans", imageUrl: "images/Jeans_$50.png", price: 50, quantity: 5},		   
-	KeyboardCombo: {label: "Keyboard Combo", imageUrl: "images/KeyboardCombo_$40.png", price: 40, quantity: 5},
-	Keyboard: {label: "Keyboard", imageUrl: "images/Keyboard_$20.png", price: 20, quantity: 5},
-	Mice: {label: "Mice", imageUrl: "images/Mice_$20.png", price: 20, quantity: 5},
-	PC1: {label: "PC1", imageUrl: "images/PC1_$350.png", price: 350, quantity: 5},
-	PC2: {label: "PC2", imageUrl: "images/PC2_$400.png", price: 400, quantity: 5},
-	PC3: {label: "PC3", imageUrl: "images/PC3_$350.png", price: 300, quantity: 5},
-	Tent: {label: "Tent", imageUrl: "images/Tent_$100.png", price: 100, quantity: 5},
+	Box1: {label: "Box 1", imageUrl: "images/Box1", price: 10, quantity: 5},
+	Box2: {label: "Box 2", imageUrl: "images/Box2", price: 5, quantity: 5},
+	Clothes1: {label: "Clothes 1", imageUrl: "images/Clothes1.png", price: 20, quantity: 5},
+	Clothes2: {label: "Clothes 2", imageUrl: "images/Clothes2.png", price: 30, quantity: 5},
+	Jeans: {label: "Jeans", imageUrl: "images/Jeans.png", price: 50, quantity: 5},		   
+	KeyboardCombo: {label: "Keyboard Combo", imageUrl: "images/KeyboardCombo.png", price: 40, quantity: 5},
+	Keyboard: {label: "Keyboard", imageUrl: "images/Keyboard.png", price: 20, quantity: 5},
+	Mice: {label: "Mice", imageUrl: "images/Mice.png", price: 20, quantity: 5},
+	PC1: {label: "PC1", imageUrl: "images/PC1.png", price: 350, quantity: 5},
+	PC2: {label: "PC2", imageUrl: "images/PC2.png", price: 400, quantity: 5},
+	PC3: {label: "PC3", imageUrl: "images/PC3.png", price: 300, quantity: 5},
+	Tent: {label: "Tent", imageUrl: "images/Tent.png", price: 100, quantity: 5},
 };
 
 var store = new Store(products);
@@ -115,9 +115,35 @@ function increment() {
 }
 
 function renderProduct(container, storeInstance, itemName) {
-	var element = document.createElement(itemName);
-	container = element;
-	console.log(container);
+	var productBox = document.createElement("LI");
+	var addButton = document.createElement("BUTTON");
+	var removeButton = document.createElement("BUTTON");
+	var img = document.createElement("IMG"); 
+	var priceOverlay = document.createElement("DIV");
+	var label = document.createElement("TEXT"); 
+	
+	productBox.setAttribute("class", "product");
+	productBox.setAttribute("id", itemName);
+	addButton.setAttribute("class", "btn-add");
+	addButton.setAttribute("onclick", "store.addItemToCart('" + itemName + "')");
+	addButton.setAttribute("text", "Add to Cart");
+	removeButton.setAttribute("class", "btn-remove");
+	removeButton.setAttribute("onclick", "store.removeItemFromCart('" + itemName + "')");
+	removeButton.setAttribute("text", "Remove from Cart");
+	img.setAttribute("src", storeInstance.stock[itemName].imageUrl); 
+	priceOverlay.setAttribute("class", "priceOverlay");
+	priceOverlay.setAttribute("text", "$" + storeInstance.stock[itemName].price);
+	label.setAttribute("text", storeInstance.stock[itemName].label);
+	
+	productBox.appendChild(addButton);
+	productBox.appendChild(removeButton);
+	productBox.appendChild(img);
+	productBox.appendChild(priceOverlay);
+	productBox.appendChild(label);
+	
+	container = productBox;
 }
 
-//function show
+function renderProductList(container, storeInstance) {
+	var productList = document.createElement();
+}
