@@ -81,7 +81,7 @@ function increment() {
 	inactiveTime++;
 	console.log(inactiveTime);
 	
-	if (inactiveTime == 30) {
+	if (inactiveTime == 1800) {
 		alert("Hey there! Are you still planning to buy something?");
 		inactiveTime = 0;
 	}
