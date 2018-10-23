@@ -110,6 +110,7 @@ function renderProduct(container, storeInstance, itemName) {
 	//priceOverlay.setAttribute("text", "$" + storeInstance.stock[itemName].price);
 	priceOverlay.innerHTML = storeInstance.stock[itemName].price;
 
+	label.setAttribute("class", "label");
 	label.innerHTML = storeInstance.stock[itemName].label;
 	
 	container.appendChild(addButton);

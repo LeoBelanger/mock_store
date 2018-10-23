@@ -92,10 +92,15 @@ ul {
 }
 
 .product img {
-	max-height: 10;
-	max-width: 10;
+	max-height: 150;
+	max-width: 150;
 	height: 80%;
 	width: 80%;
+}
+
+.label {
+	display: table-cell;
+	vertical-align: bottom;
 }
 
 .priceOverlay {
