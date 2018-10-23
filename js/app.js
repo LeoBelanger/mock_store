@@ -1,6 +1,6 @@
 var products = {
-	Box1: {label: "Box 1", imageUrl: "images/Box1", price: 10, quantity: 5},
-	Box2: {label: "Box 2", imageUrl: "images/Box2", price: 5, quantity: 5},
+	Box1: {label: "Box 1", imageUrl: "images/Box1.png", price: 10, quantity: 5},
+	Box2: {label: "Box 2", imageUrl: "images/Box2.png", price: 5, quantity: 5},
 	Clothes1: {label: "Clothes 1", imageUrl: "images/Clothes1.png", price: 20, quantity: 5},
 	Clothes2: {label: "Clothes 2", imageUrl: "images/Clothes2.png", price: 30, quantity: 5},
 	Jeans: {label: "Jeans", imageUrl: "images/Jeans.png", price: 50, quantity: 5},		   
@@ -124,16 +124,21 @@ function renderProduct(container, storeInstance, itemName) {
 	
 	container.setAttribute("class", "product");
 	container.setAttribute("id", itemName);
+	
 	addButton.setAttribute("class", "btn-add");
 	addButton.setAttribute("onclick", "store.addItemToCart('" + itemName + "')");
 	addButton.setAttribute("text", "Add to Cart");
+	
 	removeButton.setAttribute("class", "btn-remove");
 	removeButton.setAttribute("onclick", "store.removeItemFromCart('" + itemName + "')");
+	
 	removeButton.setAttribute("text", "Remove from Cart");
 	img.setAttribute("src", storeInstance.stock[itemName].imageUrl); 
+	
 	priceOverlay.setAttribute("class", "priceOverlay");
 	priceOverlay.setAttribute("text", "$" + storeInstance.stock[itemName].price);
-	label.setAttribute("text", storeInstance.stock[itemName].label);
+
+	label.innerHTML = storeInstance.stock[itemName].label;
 	
 	container.appendChild(addButton);
 	container.appendChild(removeButton);
