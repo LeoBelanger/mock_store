@@ -39,30 +39,10 @@ Store.prototype.addItemToCart = function(itemName) {
 			console.log("There is no stock left!");
 		}
 	}
-	
-	/* Hide add if out of stock */
-	if (this.stock[itemName].quantity == 0) {
-		var addButton = document.getElementById(itemName).childNodes[1];
-		console.log(document.getElementById(itemName).childNodes);
-		addButton.style.visibility = "hidden";
-	}
-	
-	/* Regenerate remove button */
-	if (this.cart[itemName] > 0) {
-		var removeButton = document.getElementById(itemName).childNodes[3];
-		console.log(document.getElementById(itemName).childNodes);
-		removeButton.style.visibility = "visible";
-	}
 }
 	
 Store.prototype.removeItemFromCart = function(itemName) {
 	inactiveTime = 0;
-	/* Hide remove if cart quantity is 0 */
-	if (this.cart[itemName] == 1) {
-		var removeButton = document.getElementById(itemName).childNodes[3];
-		console.log(document.getElementById(itemName).childNodes);
-		removeButton.style.visibility = "hidden";
-	}
 	
 	if (itemName in this.cart) {
 		if (this.cart[itemName] > 1) {
@@ -78,13 +58,6 @@ Store.prototype.removeItemFromCart = function(itemName) {
 	} else {
 		console.log("This item is not in the cart");
 	}
-	
-	/* Regenerate add if cart is full */
-	if (this.stock[itemName].quantity > 0) {
-		var addButton = document.getElementById(itemName).childNodes[1];
-		console.log(document.getElementById(itemName).childNodes);
-		addButton.style.visibility = "visible";
-	}
 }
 
 function showCart(cart) {
@@ -99,10 +72,6 @@ function showCart(cart) {
 	}
 	alert(string);
 }
-
-//console.log(document.getElementById("productView"));
-
-
 
 window.onload = function () {
 	console.log("on load");
@@ -127,16 +96,19 @@ function renderProduct(container, storeInstance, itemName) {
 	
 	addButton.setAttribute("class", "btn-add");
 	addButton.setAttribute("onclick", "store.addItemToCart('" + itemName + "')");
-	addButton.setAttribute("text", "Add to Cart");
+	//addButton.setAttribute("text", "Add to Cart");
+	addButton.innerHTML = "Add to Cart";
 	
 	removeButton.setAttribute("class", "btn-remove");
 	removeButton.setAttribute("onclick", "store.removeItemFromCart('" + itemName + "')");
+	//removeButton.setAttribute("text", "Remove from Cart");
+	removeButton.innerHTML = "Remove from Cart";
 	
-	removeButton.setAttribute("text", "Remove from Cart");
 	img.setAttribute("src", storeInstance.stock[itemName].imageUrl); 
 	
 	priceOverlay.setAttribute("class", "priceOverlay");
-	priceOverlay.setAttribute("text", "$" + storeInstance.stock[itemName].price);
+	//priceOverlay.setAttribute("text", "$" + storeInstance.stock[itemName].price);
+	priceOverlay.innerHTML = storeInstance.stock[itemName].price;
 
 	label.innerHTML = storeInstance.stock[itemName].label;
 	
