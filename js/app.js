@@ -145,18 +145,17 @@ function renderProduct(container, storeInstance, itemName) {
 }
 
 function renderProductList(container, storeInstance) {
-	//var productList = document.createElement("UL");
-	//productList.setAttribute("id", "productList"); 
 	console.log(Object.keys(storeInstance.stock).length);
-	//for (var i = 0; i < Object.keys(storeInstance.stock).length; i++) {
+	var productList = document.createElement("UL");
+	productList.setAttribute("id", "productList"); 
+	
 	for (var product in storeInstance.stock) {
 		console.log(product);
-		var productBox = document.createElement("div");
+		var productBox = document.createElement("LI");
 		var temp = renderProduct(productBox, storeInstance, product);
-		//console.log(storeInstance.stock[i]);
-		container.appendChild(temp);
+		productList.appendChild(temp);
 	}
-	//container.appendChild(productList);
+	container.appendChild(productList);
 }
 
 var inactiveTime = 0; 
