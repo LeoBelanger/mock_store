@@ -13,9 +13,7 @@ var products = {
 	Tent: {label: "Tent", imageUrl: "images/Tent.png", price: 100, quantity: 5},
 };
 
-var store = new Store(products);
-
-var inactiveTime = 0; 
+var store;
 
 function Store(initialStock) {	
 	this.stock = initialStock;
@@ -102,22 +100,22 @@ function showCart(cart) {
 	alert(string);
 }
 
-var second = setInterval(increment, 1000);
-
-function increment() {
-	inactiveTime++;
-	//console.log(inactiveTime);
-	
-	if (inactiveTime == 1800) {
-		alert("Hey there! Are you still planning to buy something?");
-		inactiveTime = 0;
-	}
-}
 //console.log(document.getElementById("productView"));
 
-renderProductList(document.getElementById("productView"), store); 
+
+
+window.onload = function () {
+	console.log("on load");
+	store = new Store(products);
+	renderProductList(document.getElementById("productView"), store); 
+}
 
 function renderProduct(container, storeInstance, itemName) {
+	console.log(itemName);
+	while (container.firstChild != null) {
+		container.removeChild(container.firstChild);
+	}
+	
 	var addButton = document.createElement("BUTTON");
 	var removeButton = document.createElement("BUTTON");
 	var img = document.createElement("IMG"); 
@@ -147,13 +145,30 @@ function renderProduct(container, storeInstance, itemName) {
 }
 
 function renderProductList(container, storeInstance) {
-	var productList = document.createElement("UL");
-	productList.setAttribute("id", "productList"); 
-
-	for (var i = 0; i < storeInstance.cart.length; i++) {
-		var productBox = document.createElement("LI");
-		var temp = renderProduct(productBox, storeInstance, storeInstance.cart[i]);
-		productList.appendChild(temp);
+	//var productList = document.createElement("UL");
+	//productList.setAttribute("id", "productList"); 
+	console.log(Object.keys(storeInstance.stock).length);
+	//for (var i = 0; i < Object.keys(storeInstance.stock).length; i++) {
+	for (var product in storeInstance.stock) {
+		console.log(product);
+		var productBox = document.createElement("div");
+		var temp = renderProduct(productBox, storeInstance, product);
+		//console.log(storeInstance.stock[i]);
+		container.appendChild(temp);
 	}
-	container.appendChild(productList);
+	//container.appendChild(productList);
+}
+
+var inactiveTime = 0; 
+
+var second = setInterval(increment, 1000);
+
+function increment() {
+	inactiveTime++;
+	//console.log(inactiveTime);
+	
+	if (inactiveTime == 1800) {
+		alert("Hey there! Are you still planning to buy something?");
+		inactiveTime = 0;
+	}
 }
