@@ -171,11 +171,16 @@ function renderCart(container, storeInstance) {
 	var keysInCart = Object.keys(storeInstance.cart);
 	console.log(keysInCart);
 	var valuesInCart = Object.values(storeInstance.cart);
-	console.log(valuesInCart);
-	console.log("render cart called");
+	
+	var totalPrice = 0;
+	
 	if (keysInCart.length > 0) {
 		for(var count = 0; count < keysInCart.length; count++) {
-			console.log("balls");
+			var keyLabel = keysInCart[count];
+			var priceOfKey = products[keyLabel].price;
+			
+			totalPrice = totalPrice + (valuesInCart[count] * priceOfKey);
+			
 			var row = document.createElement("tr");
 			
 			var itemName = document.createElement("td");
@@ -185,7 +190,10 @@ function renderCart(container, storeInstance) {
 			var quantityNode = document.createTextNode(valuesInCart[count]);
 			
 			var addButton = document.createElement("button");
+			var addButtonNode = document.createTextNode("+");
+			
 			var removeButton = document.createElement("button");
+			var removeButtonNode = document.createTextNode("-");
 			
 			row.setAttribute("class", "modalRow");
 			
@@ -200,7 +208,14 @@ function renderCart(container, storeInstance) {
 			
 			itemName.appendChild(itemNameNode);
 			quantity.appendChild(quantityNode);
+			addButton.appendChild(addButtonNode);
+			removeButton.appendChild(removeButtonNode);
 		}	
+		
+		var priceRow = document.createElement("tr");
+		var priceNode = document.createTextNode(totalPrice);
+		priceRow.appendChild(priceNode);
+		table.appendChild(priceRow);
 	}
 }
 
