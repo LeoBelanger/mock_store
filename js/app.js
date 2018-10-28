@@ -14,6 +14,25 @@ var products = {
 };
 
 var store;
+var inactiveTime = 0; 
+var second = setInterval(increment, 1000);
+
+window.onload = function () {
+	store = new Store(products);
+	
+	store.onUpdate = function(itemName) {
+		renderProduct(document.getElementById("product-" + itemName), store, itemName);
+		renderCart(document.getElementById("modal-content"), store);
+	}	
+	renderProductList(document.getElementById("productView"), store); 
+}
+
+document.onkeydown = function(e) {
+	if(e.keyCode == 27) {
+		var modal = document.getElementById("modal");
+		modal.style.display = "none";
+	}
+}
 
 function Store(initialStock) {	
 	this.stock = initialStock;
@@ -23,24 +42,18 @@ function Store(initialStock) {
 
 Store.prototype.addItemToCart = function(itemName) {
 	inactiveTime = 0;
-	console.log(this.stock);
 	
 	if (itemName in this.cart == false) {
 		this.cart[itemName] = 1;
-		this.stock[itemName].quantity--; 
-		console.log(this.cart);			
+		this.stock[itemName].quantity--; 			
 	} else {
 		if(this.stock[itemName].quantity > 0) {
-		//There is still stock left 
 			this.cart[itemName]++;
 			this.stock[itemName].quantity--;
-			console.log(this.cart);
 		} else {
-		//There's no stock left of this item.
 			console.log("There is no stock left!");
 		}
 	}
-	
 	this.onUpdate(itemName);
 }
 	
@@ -51,17 +64,14 @@ Store.prototype.removeItemFromCart = function(itemName) {
 		if (this.cart[itemName] > 1) {
 			this.cart[itemName]--;
 			this.stock[itemName].quantity++;
-			console.log(this.cart);
 		} else {
 			this.cart[itemName] == 1;
 			this.stock[itemName].quantity++;
 			delete this.cart[itemName];
-			console.log(this.cart);
 		} 
 	} else {
 		console.log("This item is not in the cart");
 	}
-	
 	this.onUpdate(itemName);
 }
 
@@ -69,39 +79,12 @@ function showCart(cart) {
 	inactiveTime = 0;
 	
 	var modal = document.getElementById("modal");
-	console.log("got modal");
 	var modalContent = document.getElementById("modal-content");
 	renderCart(modalContent, store);
 	modal.style.display = "block";
-	/*
-	var string = "";
-	
-	itemsInCart = Object.entries(cart);
-	console.log(this.cart);
-	for(var i = 0; i < itemsInCart.length; i++) {
-		string = string.concat(itemsInCart[i] + "\n");
-		string = string.replace(",", " : ");
-	}
-	alert(string); */
 }
-
-window.onload = function () {
-	console.log("on load");
-	store = new Store(products);
-	
-	store.onUpdate = function(itemName) {
-		renderProduct(document.getElementById("product-" + itemName), store, itemName);
-		renderCart(document.getElementById("modal-content"), store);
-	}	
-	
-	renderProductList(document.getElementById("productView"), store); 
-}
-
-
 
 function renderProduct(container, storeInstance, itemName) {
-	console.log(itemName);
-	
 	while (container.firstChild != null) {
 		container.removeChild(container.firstChild);
 	}
@@ -115,9 +98,6 @@ function renderProduct(container, storeInstance, itemName) {
 	var priceOverlayLabelNode = document.createTextNode("$" + storeInstance.stock[itemName].price);
 	var productLabel = document.createElement("P");
 	var productLabelNode = document.createTextNode(storeInstance.stock[itemName].label);
-	
-	//container.setAttribute("class", "product");
-	//container.setAttribute("id", itemName);
 	
 	addButton.setAttribute("class", "btn-add");
 	addButton.setAttribute("onclick", "store.addItemToCart('" + itemName + "')");
@@ -157,12 +137,10 @@ function renderProductList(container, storeInstance) {
 		container.removeChild(container.firstChild);
 	}
 	
-	console.log(Object.keys(storeInstance.stock).length);
 	var productList = document.createElement("UL");
 	productList.setAttribute("id", "productList"); 
 	
 	for (var itemName in storeInstance.stock) {
-		console.log(itemName);
 		var productBox = document.createElement("LI");
 		productBox.setAttribute("class", "product");
 		productBox.setAttribute("id", "product-" + itemName);
@@ -204,7 +182,6 @@ function renderCart(container, storeInstance) {
 	headerItemName.appendChild(headerItemNameText); 
 	headerItemQuantity.appendChild(headerItemQuantityText); 
 	table.appendChild(headerRow);
-	
 	
 	if (keysInCart.length > 0) {
 		for(var count = 0; count < keysInCart.length; count++) {
@@ -263,25 +240,12 @@ function renderCart(container, storeInstance) {
 }
 
 function hideCart() {
-	console.log("hide cart");
 	var modal = document.getElementById("modal");
 	modal.style.display = "none";
 }
 
-document.onkeydown = function(e) {
-	if(e.keyCode == 27) {
-		var modal = document.getElementById("modal");
-		modal.style.display = "none";
-	}
-}
-
-var inactiveTime = 0; 
-
-var second = setInterval(increment, 1000);
-
 function increment() {
 	inactiveTime++;
-	//console.log(inactiveTime);
 	
 	if (inactiveTime == 1800) {
 		alert("Hey there! Are you still planning to buy something?");
