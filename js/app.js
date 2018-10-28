@@ -181,8 +181,10 @@ function renderCart(container, storeInstance) {
 	}
 	
 	var hideCartButton = document.createElement("button");
+	var hideCartButtonNode = document.createTextNode("Hide Cart");
 	hideCartButton.setAttribute("id", "btn-hide-cart"); 
 	hideCartButton.setAttribute("onclick", "hideCart()");
+	hideCartButton.appendChild(hideCartButtonNode);
 	
 	container.appendChild(hideCartButton);
 	
