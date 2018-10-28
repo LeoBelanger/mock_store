@@ -167,10 +167,16 @@ function renderProductList(container, storeInstance) {
 }
 
 function renderCart(container, storeInstance) {
-	while (container.lastChild != null) {
-		if (container.lastChild != document.getElementById("btn-hide-cart")) 
-			container.removeChild(container.lastChild);
-	} 
+	var children = container.childNodes;
+	console.log(children);
+
+	for (var i = 2; i < children.length; i++) {
+		container.removeChild(children[i]);
+	}
+	/*
+	while (container.firstChild != null) {
+		container.removeChild(container.firstChild);
+	}*/
 	
 	var table = document.createElement("table");
 	
