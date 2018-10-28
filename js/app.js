@@ -73,7 +73,6 @@ function showCart(cart) {
 	var modalContent = document.getElementById("modal-content");
 	renderCart(modalContent, store);
 	modal.style.display = "block";
-	console.log("modal set attributes");
 	/*
 	var string = "";
 	
@@ -174,9 +173,9 @@ function renderCart(container, storeInstance) {
 	var valuesInCart = Object.values(storeInstance.cart);
 	console.log(valuesInCart);
 	console.log("render cart called");
-	if (storeInstance.cart.length > 0) {
-		for(var count = 0; count < storeInstance.cart.length; count++) {
-			
+	if (keysInCart.length > 0) {
+		for(var count = 0; count < keysInCart.length; count++) {
+			console.log("balls");
 			var row = document.createElement("tr");
 			
 			var itemName = document.createElement("td");
@@ -189,7 +188,6 @@ function renderCart(container, storeInstance) {
 			var removeButton = document.createElement("button");
 			
 			row.setAttribute("class", "modalRow");
-			itemName.setAttribute
 			
 			container.appendChild(table);
 			
