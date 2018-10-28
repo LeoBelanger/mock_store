@@ -183,6 +183,7 @@ function renderCart(container, storeInstance) {
 	var hideCartButton = document.createElement("button");
 	hideCartButton.setAttribute("id", "btn-hide-cart"); 
 	hideCartButton.setAttribute("onclick", "hideCart()");
+	
 	container.appendChild(hideCartButton);
 	
 	var table = document.createElement("table");
@@ -239,8 +240,6 @@ function renderCart(container, storeInstance) {
 		priceRow.appendChild(priceNode);
 		table.appendChild(priceRow);
 	}
-	
-
 	
 	return container;
 }
