@@ -203,7 +203,7 @@ function renderCart(container, storeInstance) {
 			var row = document.createElement("tr");
 			
 			var itemName = document.createElement("td");
-			var itemNameNode = document.createTextNode(keysInCart[count]);
+			var itemNameNode = document.createTextNode(storeInstance.stock[keyLabel].label);
 			
 			var quantity = document.createElement("td");
 			var quantityNode = document.createTextNode(valuesInCart[count]);
