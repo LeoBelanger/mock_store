@@ -86,38 +86,43 @@ function renderProduct(container, storeInstance, itemName) {
 	}
 	
 	var addButton = document.createElement("BUTTON");
+	var addButtonLabelNode = document.createTextNode("Add to Cart");
 	var removeButton = document.createElement("BUTTON");
+	var removeButtonLabelNode = document.createTextNode("Remove from Cart");
 	var img = document.createElement("IMG"); 
 	var priceOverlay = document.createElement("DIV");
-	var label = document.createElement("TEXT"); 
+	var priceOverlayLabelNode = document.createTextNode("$" + storeInstance.stock[itemName].price);
+	var productLabel = document.createElement("P");
+	var productLabelNode = document.createTextNode(storeInstance.stock[itemName].label);
 	
 	container.setAttribute("class", "product");
 	container.setAttribute("id", itemName);
 	
 	addButton.setAttribute("class", "btn-add");
 	addButton.setAttribute("onclick", "store.addItemToCart('" + itemName + "')");
-	//addButton.setAttribute("text", "Add to Cart");
-	addButton.innerHTML = "Add to Cart";
 	
 	removeButton.setAttribute("class", "btn-remove");
 	removeButton.setAttribute("onclick", "store.removeItemFromCart('" + itemName + "')");
-	//removeButton.setAttribute("text", "Remove from Cart");
-	removeButton.innerHTML = "Remove from Cart";
 	
 	img.setAttribute("src", storeInstance.stock[itemName].imageUrl); 
 	
 	priceOverlay.setAttribute("class", "priceOverlay");
-	//priceOverlay.setAttribute("text", "$" + storeInstance.stock[itemName].price);
-	priceOverlay.innerHTML = storeInstance.stock[itemName].price;
 
-	label.setAttribute("class", "label");
-	label.innerHTML = storeInstance.stock[itemName].label;
+	productLabel.setAttribute("class", "productLabel");
+	
+	container.appendChild(img);
 	
 	container.appendChild(addButton);
+	addButton.appendChild(addButtonLabelNode);
+	
 	container.appendChild(removeButton);
-	container.appendChild(img);
+	removeButton.appendChild(removeButtonLabelNode);
+	
 	container.appendChild(priceOverlay);
-	container.appendChild(label);
+	priceOverlay.appendChild(priceOverlayLabelNode);
+	
+	container.appendChild(productLabel);
+	productLabel.appendChild(productLabelNode);
 	
 	return container;
 }
