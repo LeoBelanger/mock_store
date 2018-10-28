@@ -90,7 +90,8 @@ window.onload = function () {
 	store = new Store(products);
 	
 	store.onUpdate = function(itemName) {
-		renderProduct(document.getElementById(itemName),store, itemName);
+		renderProduct(document.getElementById(itemName), store, itemName);
+		renderCart(document.getElementById("modal-content"), store);
 	}	
 	
 	renderProductList(document.getElementById("productView"), store); 
@@ -166,6 +167,11 @@ function renderProductList(container, storeInstance) {
 }
 
 function renderCart(container, storeInstance) {
+	while (container.lastChild != null) {
+		if (container.lastChild != document.getElementById("btn-hide-cart")) 
+			container.removeChild(container.lastChild);
+	} 
+	
 	var table = document.createElement("table");
 	
 	var keysInCart = Object.keys(storeInstance.cart);
@@ -209,7 +215,10 @@ function renderCart(container, storeInstance) {
 			itemName.appendChild(itemNameNode);
 			quantity.appendChild(quantityNode);
 			addButton.appendChild(addButtonNode);
+			addButton.setAttribute("onclick", "store.addItemToCart('" + keyLabel + "')");
+
 			removeButton.appendChild(removeButtonNode);
+			removeButton.setAttribute("onclick", "store.removeItemFromCart('" + keyLabel + "')");
 		}	
 		
 		var priceRow = document.createElement("tr");
@@ -217,6 +226,12 @@ function renderCart(container, storeInstance) {
 		priceRow.appendChild(priceNode);
 		table.appendChild(priceRow);
 	}
+}
+
+function hideCart() {
+	console.log("hide cart");
+	var modal = document.getElementById("modal");
+	modal.style.display = "none";
 }
 
 var inactiveTime = 0; 

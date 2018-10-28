@@ -161,6 +161,13 @@ ul {
 	opacity: 1;
 }	
 
+#btn-hide-cart {
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
 #modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -175,6 +182,7 @@ ul {
 }
 
 #modal-content {
+	min-height: 150px;
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
