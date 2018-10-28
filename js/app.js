@@ -112,11 +112,15 @@ function renderProduct(container, storeInstance, itemName) {
 	
 	container.appendChild(img);
 	
-	container.appendChild(addButton);
-	addButton.appendChild(addButtonLabelNode);
+	if(storeInstance.stock[itemName].quantity != 0) {
+		container.appendChild(addButton);
+		addButton.appendChild(addButtonLabelNode);
+	}
 	
-	container.appendChild(removeButton);
-	removeButton.appendChild(removeButtonLabelNode);
+	if(storeInstance.cart[itemName] > 0) {
+		container.appendChild(removeButton);
+		removeButton.appendChild(removeButtonLabelNode);
+	}
 	
 	container.appendChild(priceOverlay);
 	priceOverlay.appendChild(priceOverlayLabelNode);
