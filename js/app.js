@@ -18,6 +18,7 @@ var store;
 function Store(initialStock) {	
 	this.stock = initialStock;
 	this.cart = [];
+	this.onUpdate = null;
 }
 
 Store.prototype.addItemToCart = function(itemName) {
@@ -39,6 +40,8 @@ Store.prototype.addItemToCart = function(itemName) {
 			console.log("There is no stock left!");
 		}
 	}
+	
+	this.onUpdate(itemName);
 }
 	
 Store.prototype.removeItemFromCart = function(itemName) {
@@ -58,6 +61,8 @@ Store.prototype.removeItemFromCart = function(itemName) {
 	} else {
 		console.log("This item is not in the cart");
 	}
+	
+	this.onUpdate(itemName);
 }
 
 function showCart(cart) {
@@ -76,11 +81,19 @@ function showCart(cart) {
 window.onload = function () {
 	console.log("on load");
 	store = new Store(products);
+	
+	store.onUpdate = function(itemName) {
+		renderProduct(document.getElementById(itemName),store, itemName);
+	}	
+	
 	renderProductList(document.getElementById("productView"), store); 
 }
 
+
+
 function renderProduct(container, storeInstance, itemName) {
 	console.log(itemName);
+	
 	while (container.firstChild != null) {
 		container.removeChild(container.firstChild);
 	}
