@@ -213,9 +213,9 @@ ul {
     padding: 8px;
 }
 
-#cartTable tr:nth-child(even){background-color: #f2f2f2;}
+#cartTable td:nth-child(even){background-color: #f2f2f2;}
 
-#cartTable tr:hover {background-color: #ddd;}
+#cartTable td:hover {background-color: #ddd;}
 
 #cartTable th {
     padding-top: 12px;
