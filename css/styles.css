@@ -165,7 +165,7 @@ ul {
 #btn-hide-cart {
 	color: #aaaaaa;
 	float: right;
-	font-size: 28px;
+	font-size: 20px;
 	font-weight: bold;
 }
 
@@ -189,4 +189,44 @@ ul {
     padding: 20px;
     border: 1px solid #888;
     width: 40%; /* Could be more or less, depending on screen size */
+}
+
+
+#modalAddButton {
+	margin-right: 2px; 
+	margin-top: 7px; 
+}
+
+#modalRemoveButton {
+
+}
+
+
+#cartTable {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#cartTable td, #cartTable th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#cartTable tr:nth-child(even){background-color: #f2f2f2;}
+
+#cartTable tr:hover {background-color: #ddd;}
+
+#cartTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #000080;
+    color: white;
+}
+
+#totalPriceRow {
+	border: 1px solid #ddd;
+    padding: 8px;
+	margin:12px;
 }

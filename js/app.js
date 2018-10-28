@@ -175,6 +175,7 @@ function renderProductList(container, storeInstance) {
 }
 
 function renderCart(container, storeInstance) {
+	var totalPrice = 0;
 	
 	while (container.firstChild != null) {
 		container.removeChild(container.firstChild);
@@ -185,16 +186,25 @@ function renderCart(container, storeInstance) {
 	hideCartButton.setAttribute("id", "btn-hide-cart"); 
 	hideCartButton.setAttribute("onclick", "hideCart()");
 	hideCartButton.appendChild(hideCartButtonNode);
-	
 	container.appendChild(hideCartButton);
 	
 	var table = document.createElement("table");
+	table.setAttribute("id", "cartTable");
 	
 	var keysInCart = Object.keys(storeInstance.cart);
-	console.log(keysInCart);
 	var valuesInCart = Object.values(storeInstance.cart);
 	
-	var totalPrice = 0;
+	var headerRow = document.createElement("tr"); 
+	var headerItemName = document.createElement("th"); 
+	var headerItemQuantity = document.createElement("th");
+	headerRow.appendChild(headerItemName);
+	headerRow.appendChild(headerItemQuantity);
+	var headerItemNameText = document.createTextNode("Item Name"); 
+	var headerItemQuantityText = document.createTextNode("Quantity"); 
+	headerItemName.appendChild(headerItemNameText); 
+	headerItemQuantity.appendChild(headerItemQuantityText); 
+	table.appendChild(headerRow);
+	
 	
 	if (keysInCart.length > 0) {
 		for(var count = 0; count < keysInCart.length; count++) {
@@ -232,16 +242,22 @@ function renderCart(container, storeInstance) {
 			quantity.appendChild(quantityNode);
 			addButton.appendChild(addButtonNode);
 			addButton.setAttribute("onclick", "store.addItemToCart('" + keyLabel + "')");
+			addButton.setAttribute("id", "modalAddButton"); 
 
 			removeButton.appendChild(removeButtonNode);
 			removeButton.setAttribute("onclick", "store.removeItemFromCart('" + keyLabel + "')");
+			removeButton.setAttribute("id", "modalRemoveButton"); 
 		}	
-		
-		var priceRow = document.createElement("tr");
-		var priceNode = document.createTextNode(totalPrice);
-		priceRow.appendChild(priceNode);
-		table.appendChild(priceRow);
 	}
+	
+	var priceRow = document.createElement("tr");
+	priceRow.setAttribute("id", "totalPriceRow");
+	var priceElement = document.createElement("td");
+	priceElement.setAttribute("colspan", "2");
+	priceRow.appendChild(priceElement);
+	var priceNode = document.createTextNode("Total Price: $" + totalPrice);
+	priceElement.appendChild(priceNode);
+	table.appendChild(priceRow);
 	
 	return container;
 }
