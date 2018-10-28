@@ -159,12 +159,14 @@ function renderCart(container, storeInstance) {
 		container.removeChild(container.firstChild);
 	}
 	
+	/*
 	var hideCartButton = document.createElement("button");
 	var hideCartButtonNode = document.createTextNode("x");
 	hideCartButton.setAttribute("id", "btn-hide-cart"); 
 	hideCartButton.setAttribute("onclick", "hideCart()");
 	hideCartButton.appendChild(hideCartButtonNode);
 	container.appendChild(hideCartButton);
+	*/
 	
 	var table = document.createElement("table");
 	table.setAttribute("id", "cartTable");
