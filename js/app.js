@@ -178,8 +178,8 @@ function renderCart(container, storeInstance) {
 	var children = container.childNodes;
 	console.log(children);
 
-	for (var i = 2; i < children.length; i++) {
-		container.removeChild(children[i]);
+	while (container.firstChild != null) {
+		container.removeChild(container.firstChild);
 	}
 	
 	var table = document.createElement("table");
@@ -236,6 +236,11 @@ function renderCart(container, storeInstance) {
 		priceRow.appendChild(priceNode);
 		table.appendChild(priceRow);
 	}
+	var hideCartButton = document.createElement("button");
+	hideCartButton.setAttribute("id", "btn-hide-cart"); 
+	hideCartButton.setAttribute("onclick", "hideCart()");
+	
+	container.appendChild(hideCartButton);
 	
 	return container;
 }
