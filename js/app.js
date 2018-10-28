@@ -90,7 +90,7 @@ window.onload = function () {
 	store = new Store(products);
 	
 	store.onUpdate = function(itemName) {
-		renderProduct(document.getElementById(itemName), store, itemName);
+		renderProduct(document.getElementById("product-" + itemName), store, itemName);
 		renderCart(document.getElementById("modal-content"), store);
 	}	
 	
@@ -116,8 +116,8 @@ function renderProduct(container, storeInstance, itemName) {
 	var productLabel = document.createElement("P");
 	var productLabelNode = document.createTextNode(storeInstance.stock[itemName].label);
 	
-	container.setAttribute("class", "product");
-	container.setAttribute("id", itemName);
+	//container.setAttribute("class", "product");
+	//container.setAttribute("id", itemName);
 	
 	addButton.setAttribute("class", "btn-add");
 	addButton.setAttribute("onclick", "store.addItemToCart('" + itemName + "')");
@@ -153,17 +153,25 @@ function renderProduct(container, storeInstance, itemName) {
 }
 
 function renderProductList(container, storeInstance) {
+	while (container.firstChild != null) {
+		container.removeChild(container.firstChild);
+	}
+	
 	console.log(Object.keys(storeInstance.stock).length);
 	var productList = document.createElement("UL");
 	productList.setAttribute("id", "productList"); 
 	
-	for (var product in storeInstance.stock) {
-		console.log(product);
+	for (var itemName in storeInstance.stock) {
+		console.log(itemName);
 		var productBox = document.createElement("LI");
-		var temp = renderProduct(productBox, storeInstance, product);
+		productBox.setAttribute("class", "product");
+		productBox.setAttribute("id", "product-" + itemName);
+		var temp = renderProduct(productBox, storeInstance, itemName);
 		productList.appendChild(temp);
 	}
 	container.appendChild(productList);
+	
+	return container;
 }
 
 function renderCart(container, storeInstance) {
@@ -173,10 +181,6 @@ function renderCart(container, storeInstance) {
 	for (var i = 2; i < children.length; i++) {
 		container.removeChild(children[i]);
 	}
-	/*
-	while (container.firstChild != null) {
-		container.removeChild(container.firstChild);
-	}*/
 	
 	var table = document.createElement("table");
 	
