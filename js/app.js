@@ -67,6 +67,14 @@ Store.prototype.removeItemFromCart = function(itemName) {
 
 function showCart(cart) {
 	inactiveTime = 0;
+	
+	var modal = document.getElementById("modal");
+	console.log("got modal");
+	var modalContent = document.getElementById("modal-content");
+	renderCart(modalContent, store);
+	modal.style.display = "block";
+	console.log("modal set attributes");
+	/*
 	var string = "";
 	
 	itemsInCart = Object.entries(cart);
@@ -75,7 +83,7 @@ function showCart(cart) {
 		string = string.concat(itemsInCart[i] + "\n");
 		string = string.replace(",", " : ");
 	}
-	alert(string);
+	alert(string); */
 }
 
 window.onload = function () {
@@ -156,6 +164,46 @@ function renderProductList(container, storeInstance) {
 		productList.appendChild(temp);
 	}
 	container.appendChild(productList);
+}
+
+function renderCart(container, storeInstance) {
+	var table = document.createElement("table");
+	
+	var keysInCart = Object.keys(storeInstance.cart);
+	console.log(keysInCart);
+	var valuesInCart = Object.values(storeInstance.cart);
+	console.log(valuesInCart);
+	console.log("render cart called");
+	if (storeInstance.cart.length > 0) {
+		for(var count = 0; count < storeInstance.cart.length; count++) {
+			
+			var row = document.createElement("tr");
+			
+			var itemName = document.createElement("td");
+			var itemNameNode = document.createTextNode(keysInCart[count]);
+			
+			var quantity = document.createElement("td");
+			var quantityNode = document.createTextNode(valuesInCart[count]);
+			
+			var addButton = document.createElement("button");
+			var removeButton = document.createElement("button");
+			
+			row.setAttribute("class", "modalRow");
+			itemName.setAttribute
+			
+			container.appendChild(table);
+			
+			table.appendChild(row);
+			
+			row.appendChild(itemName);
+			row.appendChild(quantity);
+			row.appendChild(addButton);
+			row.appendChild(removeButton);
+			
+			itemName.appendChild(itemNameNode);
+			quantity.appendChild(quantityNode);
+		}	
+	}
 }
 
 var inactiveTime = 0; 
