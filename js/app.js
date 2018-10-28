@@ -240,6 +240,13 @@ function hideCart() {
 	modal.style.display = "none";
 }
 
+document.onkeydown = function(e) {
+	if(e.keyCode == 27) {
+		var modal = document.getElementById("modal");
+		modal.style.display = "none";
+	}
+}
+
 var inactiveTime = 0; 
 
 var second = setInterval(increment, 1000);
