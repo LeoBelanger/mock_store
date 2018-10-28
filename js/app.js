@@ -193,7 +193,7 @@ function renderCart(container, storeInstance) {
 	if (keysInCart.length > 0) {
 		for(var count = 0; count < keysInCart.length; count++) {
 			var keyLabel = keysInCart[count];
-			var priceOfKey = products[keyLabel].price;
+			var priceOfKey = storeInstance.stock[keyLabel].price;
 			
 			totalPrice = totalPrice + (valuesInCart[count] * priceOfKey);
 			
@@ -236,6 +236,8 @@ function renderCart(container, storeInstance) {
 		priceRow.appendChild(priceNode);
 		table.appendChild(priceRow);
 	}
+	
+	return container;
 }
 
 function hideCart() {
