@@ -31,10 +31,8 @@ function ajaxGet(url, onSuccess, onError) {
 	
 	request.onload = function() {
 		if(request.status == 200) {
-			if(request.getResponseHeader("Content-type") == JSON) {
-				console.log(JSON.parse(request.responseText));
-				onSuccess(JSON.parse(request.responseText));
-			}
+			console.log(JSON.parse(request.responseText));
+			onSuccess(JSON.parse(request.responseText));
 		} else { 
 			if (count500 < 3) {
 				count500++;
