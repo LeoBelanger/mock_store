@@ -28,11 +28,11 @@ function ajaxGet(url, onSuccess, onError) {
 	var request = new XMLHttpRequest();
 	request.timeout = 2000;
 	request.open("GET", url);
-	request.send();
 	
 	request.onload = function() {
 		if(request.status == 200) {
 			if(request.getResponseHeader("Content-type") == JSON) {
+				console.log(JSON.parse(request.responseText));
 				onSuccess(JSON.parse(request.responseText));
 			}
 		} else { 
@@ -40,7 +40,6 @@ function ajaxGet(url, onSuccess, onError) {
 				count500++;
 				console.log("handle 500");
 				ajaxGet(url, onSuccess, onError);
-				
 			} else {
 				onError(request.status);
 				console.log("goes to error");
@@ -51,7 +50,6 @@ function ajaxGet(url, onSuccess, onError) {
 	request.ontimeout = function() {
 		if (countTimeout < 3) {
 			console.log("In Timeout, Count = " + countTimeout); 
-			
 			countTimeout++;
 			ajaxGet(url, onSuccess, onError);
 		}
@@ -60,6 +58,8 @@ function ajaxGet(url, onSuccess, onError) {
 	request.onerror = function() {
 		console.log("Error with server");
 	}
+	
+	request.send();
 }
 
 document.onkeydown = function(e) {
