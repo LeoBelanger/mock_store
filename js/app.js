@@ -1,30 +1,24 @@
-var products = {
-	Box1: {label: "Box 1", imageUrl: "images/Box1.png", price: 10, quantity: 5},
-	Box2: {label: "Box 2", imageUrl: "images/Box2.png", price: 5, quantity: 5},
-	Clothes1: {label: "Clothes 1", imageUrl: "images/Clothes1.png", price: 20, quantity: 5},
-	Clothes2: {label: "Clothes 2", imageUrl: "images/Clothes2.png", price: 30, quantity: 5},
-	Jeans: {label: "Jeans", imageUrl: "images/Jeans.png", price: 50, quantity: 5},		   
-	KeyboardCombo: {label: "Keyboard Combo", imageUrl: "images/KeyboardCombo.png", price: 40, quantity: 5},
-	Keyboard: {label: "Keyboard", imageUrl: "images/Keyboard.png", price: 20, quantity: 5},
-	Mice: {label: "Mice", imageUrl: "images/Mice.png", price: 20, quantity: 5},
-	PC1: {label: "PC1", imageUrl: "images/PC1.png", price: 350, quantity: 5},
-	PC2: {label: "PC2", imageUrl: "images/PC2.png", price: 400, quantity: 5},
-	PC3: {label: "PC3", imageUrl: "images/PC3.png", price: 300, quantity: 5},
-	Tent: {label: "Tent", imageUrl: "images/Tent.png", price: 100, quantity: 5},
-};
-
 var store;
 var inactiveTime = 0; 
 var second = setInterval(increment, 1000);
 
+function Store(serverUrl) {	
+    this.serverUrl = serverUrl;
+	this.stock = {};
+	this.cart = [];
+	this.onUpdate = null;
+}
+
 window.onload = function () {
-	store = new Store(products);
+	store = new Store("https://cpen400a-bookstore.herokuapp.com");
 	
 	store.onUpdate = function(itemName) {
-		renderProduct(document.getElementById("product-" + itemName), store, itemName);
-		renderCart(document.getElementById("modal-content"), store);
+		if (itemName !== undefined) {
+			renderProduct(document.getElementById("product-" + itemName), store, itemName);
+			renderCart(document.getElementById("modal-content"), store);
+		}
+		renderProductList(document.getElementById("productView"), store); 
 	}	
-	renderProductList(document.getElementById("productView"), store); 
 }
 
 document.onkeydown = function(e) {
@@ -34,11 +28,7 @@ document.onkeydown = function(e) {
 	}
 }
 
-function Store(initialStock) {	
-	this.stock = initialStock;
-	this.cart = [];
-	this.onUpdate = null;
-}
+
 
 Store.prototype.addItemToCart = function(itemName) {
 	inactiveTime = 0;
