@@ -9,6 +9,40 @@ function Store(serverUrl) {
 	this.onUpdate = null;
 }
 
+Store.prototype.syncWithServer = function(onSync) {
+		var previousStock = store.stock; 
+		
+		ajaxGet(store.serverUrl + "/products", 
+			function(productList) {
+			//Compute Delta
+			
+			//Update Stock
+			store.stock = productList; 
+			store.onUpdate(); 
+			}, 
+			function(error) {
+			
+			}
+		);
+		
+		
+		/*
+		var delta = {};
+		for (object in previousStock) {
+			if(object.price != productList[object].price) {
+				delta.push(object);
+				delta[object].price = productList[object].price - previousStock[object].price;
+			}
+			if(object.quantity != productList[object].quantity) {
+				if (!(object in delta)) {
+					delta.push(object);
+				}
+				delta[object].quantity = productList[object].quantity - previousStock[object].quantity;
+			}
+		}
+		*/
+}
+
 window.onload = function () {
 	store = new Store("https://cpen400a-bookstore.herokuapp.com");
 	
@@ -20,13 +54,14 @@ window.onload = function () {
 		renderProductList(document.getElementById("productView"), store); 
 	}	
 }
+
 var count500 = 0;
 var countTimeout = 0
 
 function ajaxGet(url, onSuccess, onError) {
 	
 	var request = new XMLHttpRequest();
-	request.timeout = 2000;
+	request.timeout = 500;
 	request.open("GET", url);
 	
 	request.onload = function() {
