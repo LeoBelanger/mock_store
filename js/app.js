@@ -20,6 +20,47 @@ window.onload = function () {
 		renderProductList(document.getElementById("productView"), store); 
 	}	
 }
+var count500 = 0;
+var countTimeout = 0
+
+function ajaxGet(url, onSuccess, onError) {
+	
+	var request = new XMLHttpRequest();
+	request.timeout = 2000;
+	request.open("GET", url);
+	request.send();
+	
+	request.onload = function() {
+		if(request.status == 200) {
+			if(request.getResponseHeader("Content-type") == JSON) {
+				onSuccess(JSON.parse(request.responseText));
+			}
+		} else { 
+			if (count500 < 3) {
+				count500++;
+				console.log("handle 500");
+				ajaxGet(url, onSuccess, onError);
+				
+			} else {
+				onError(request.status);
+				console.log("goes to error");
+			}
+		}
+	}
+	
+	request.ontimeout = function() {
+		if (countTimeout < 3) {
+			console.log("In Timeout, Count = " + countTimeout); 
+			
+			countTimeout++;
+			ajaxGet(url, onSuccess, onError);
+		}
+	}
+	
+	request.onerror = function() {
+		console.log("Error with server");
+	}
+}
 
 document.onkeydown = function(e) {
 	if(e.keyCode == 27) {
