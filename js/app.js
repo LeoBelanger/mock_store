@@ -10,37 +10,33 @@ function Store(serverUrl) {
 }
 
 Store.prototype.syncWithServer = function(onSync) {
-		var previousStock = store.stock; 
+	var previousStock = store.stock; 
+	
+	ajaxGet(store.serverUrl + "/products", 
+		function(productList) {
 		
-		ajaxGet(store.serverUrl + "/products", 
-			function(productList) {
-			//Compute Delta
-			
-			//Update Stock
-			store.stock = productList; 
-			store.onUpdate(); 
-			}, 
-			function(error) {
-			
-			}
-		);
+		//Update Stock
+		store.stock = productList; 
+		store.onUpdate(); 
+		}, 
+		function(error) {
 		
-		
-		/*
-		var delta = {};
-		for (object in previousStock) {
-			if(object.price != productList[object].price) {
-				delta.push(object);
-				delta[object].price = productList[object].price - previousStock[object].price;
-			}
-			if(object.quantity != productList[object].quantity) {
-				if (!(object in delta)) {
-					delta.push(object);
-				}
-				delta[object].quantity = productList[object].quantity - previousStock[object].quantity;
-			}
 		}
-		*/
+	);
+	
+	var delta = {};
+	for (object in previousStock) {
+		if(object.price != productList[object].price) {
+			delta.push(object);
+			delta[object].price = productList[object].price - previousStock[object].price;
+		}
+		if(object.quantity != productList[object].quantity) {
+			if (!(object in delta)) {
+				delta.push(object);
+			}
+			delta[object].quantity = productList[object].quantity - previousStock[object].quantity;
+		}
+	}
 }
 
 window.onload = function () {
@@ -61,7 +57,7 @@ var countTimeout = 0
 function ajaxGet(url, onSuccess, onError) {
 	
 	var request = new XMLHttpRequest();
-	request.timeout = 500;
+	request.timeout = 2000;
 	request.open("GET", url);
 	
 	request.onload = function() {
@@ -85,6 +81,9 @@ function ajaxGet(url, onSuccess, onError) {
 			console.log("In Timeout, Count = " + countTimeout); 
 			countTimeout++;
 			ajaxGet(url, onSuccess, onError);
+		} else {
+			onError(request.status);
+			console.log("goes to error");
 		}
 	}
 	
