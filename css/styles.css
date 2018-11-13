@@ -165,9 +165,7 @@ ul {
 #btn-hide-cart {
 	font-size: 20px;
 	font-weight: bold;
-	position: fixed;
-	left: 400px;
-	top: 100px;
+	float: right;
 }
 
 #modal {
@@ -230,4 +228,10 @@ ul {
 	border: 1px solid #ddd;
     padding: 8px;
 	margin:12px;
+}
+
+#btn-check-out {
+	font-size: 20px;
+	font-weight: bold;
+	float: left;
 }

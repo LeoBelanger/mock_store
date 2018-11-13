@@ -231,6 +231,20 @@ function renderCart(container, storeInstance) {
 		container.removeChild(container.firstChild);
 	}
 	
+	var hideCartButton = document.createElement("button");
+	var hideCartButtonNode = document.createTextNode("x");
+	hideCartButton.setAttribute("id", "btn-hide-cart"); 
+	hideCartButton.setAttribute("onclick", "hideCart()");
+	hideCartButton.appendChild(hideCartButtonNode);
+	container.appendChild(hideCartButton);
+	
+	var checkoutButton = document.createElement("button");
+	var checkoutButtonNode = document.createTextNode("Check Out");
+	checkoutButton.setAttribute("id", "btn-check-out"); 
+	checkoutButton.setAttribute("onclick", "checkOut()");
+	checkoutButton.appendChild(checkoutButtonNode);
+	container.appendChild(checkoutButton);
+	
 	var table = document.createElement("table");
 	table.setAttribute("id", "cartTable");
 	
