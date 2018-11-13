@@ -333,11 +333,13 @@ function hideCart() {
 
 
 Store.prototype.checkOut = function(onFinish) {
-	console.log(document.getElementById("btn-check-out").disabled);
-	onFinish();
-	console.log(document.getElementById("btn-check-out").disabled);
+	syncWithServer(function(delta) {
+		//Task 4B: Check delta, if it has values, indicate what they are to the user. 
+	});
 	
-	//syncWithServer(function(delta));
+	if(onFinish != undefined) {
+		onFinish();
+	}
 }
 
 
