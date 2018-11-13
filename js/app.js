@@ -73,6 +73,8 @@ function ajaxGet(url, onSuccess, onError) {
 	
 	request.onload = function() {
 		if(request.status == 200) {
+			count500 = 0;
+			countTimeout = 0;
 			onSuccess(JSON.parse(request.responseText));
 		} else { 
 			if (count500 < 3) {
@@ -81,7 +83,8 @@ function ajaxGet(url, onSuccess, onError) {
 				ajaxGet(url, onSuccess, onError);
 			} else {
 				onError(request.status);
-				console.log("goes to error");
+				count500 = 0;
+				console.log("Error Code: 500 occurred 3 times");
 			}
 		}
 	}
@@ -93,6 +96,7 @@ function ajaxGet(url, onSuccess, onError) {
 			ajaxGet(url, onSuccess, onError);
 		} else {
 			onError(request.status);
+			countTimeout = 0;
 			console.log("goes to error");
 		}
 	}
@@ -242,7 +246,7 @@ function renderCart(container, storeInstance) {
 	var checkoutButton = document.createElement("button");
 	var checkoutButtonNode = document.createTextNode("Check Out");
 	checkoutButton.setAttribute("id", "btn-check-out"); 
-	checkoutButton.setAttribute("onclick", "disableButton()");
+	checkoutButton.setAttribute("onclick", "disabled = true;store.checkOut(function() {document.getElementById('btn-check-out').disabled = false;})");
 	checkoutButton.appendChild(checkoutButtonNode);
 	container.appendChild(checkoutButton);
 	
@@ -327,21 +331,12 @@ function hideCart() {
 	modal.style.display = "none";
 }
 
-function disableButton() {
-	document.getElementById("btn-check-out").disabled = true;
-	console.log(document.getElementById("btn-check-out").disabled);
-	store.checkOut(function() {
-		document.getElementById("btn-check-out").disabled = false;
-	});
-	console.log(document.getElementById("btn-check-out").disabled);
-}
 
 Store.prototype.checkOut = function(onFinish) {
-	
-	
-
+	console.log(document.getElementById("btn-check-out").disabled);
 	onFinish();
-	//console.log(document.getElementById("btn-check-out").disabled);
+	console.log(document.getElementById("btn-check-out").disabled);
+	
 	//syncWithServer(function(delta));
 }
 
