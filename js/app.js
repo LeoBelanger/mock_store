@@ -241,9 +241,13 @@ function renderCart(container, storeInstance) {
 	var checkoutButton = document.createElement("button");
 	var checkoutButtonNode = document.createTextNode("Check Out");
 	checkoutButton.setAttribute("id", "btn-check-out"); 
-	checkoutButton.setAttribute("onclick", "checkOut()");
+	checkoutButton.setAttribute("onclick", "store.checkOut()");
 	checkoutButton.appendChild(checkoutButtonNode);
 	container.appendChild(checkoutButton);
+	storeInstance.checkOut(function() {
+		document.getElementById("btn-check-out").disabled = false;
+		console.log("do we get here");
+	});
 	
 	var table = document.createElement("table");
 	table.setAttribute("id", "cartTable");
@@ -332,6 +336,10 @@ function increment() {
 	}
 }
 
-function checkOut() {
+Store.prototype.checkOut = function(onFinish) {
 	document.getElementById("btn-check-out").disabled = true;
+	console.log(document.getElementById("btn-check-out").disabled);
+	onFinish();
+	console.log(document.getElementById("btn-check-out").disabled);
+	//syncWithServer(function(delta));
 }
