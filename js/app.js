@@ -9,61 +9,33 @@ function Store(serverUrl) {
 	this.onUpdate = null;
 }
 
-function getFromServer(response) {
-	serverStock = {};
-	
-	for (i in response) {
-		serverStock[i] = {};
-		
-	}
-}
 
 Store.prototype.syncWithServer = function(onSync) {
-
-	var them = this;
+	var anyStore = this;
 	
 	ajaxGet(store.serverUrl + "/products", 
 		function(productList) {
-		// First synchronization as store has no stock
-		if (Object.keys(store.stock).length === 0 && store.stock.constructor === Object) {
-			store.stock = productList;
-		}
-		
+	
+		//Calculate Delta
 		var delta = {};
 		
-		for (i in productList) {
-			var currentQuantity = 0;
-			
-			if (store.cart[i] == undefined) {
-				currentQuantity = store.stock[i].quantity;
-			} else {
-				currentQuantity = store.stock[i].quantity + store.cart[i];
-			}
-			
-			if (productList[i].price != store.stock[i].price ||
-			productList[i].quantity != currentQuantity) {
-				delta[i] = {};
-				delta[i].price = productList[i].price - store.stock[i].price;
-				delta[i].quantity = productList[i].quantity - currentQuantity;
-				console.log(delta);
-			}
+		for (obj in productList) {
+			//Check if the item is currently in the stock. We can't make calculations with it if it is undefined
+			if(store.stock[obj] != undefined) {
+				delta[obj] = {}; 
+				if(store.stock[obj].price != productList[obj].price) {
+					delta[obj].price = productList[obj].price - store.stock[obj].price; 
+				}
+				if((store.stock[obj].quantity + store.cart[obj]) != productList[obj].quantity) {
+					delta[obj].quantity = productList[obj].quantity - (store.stock[obj].quantity + store.cart[obj]);
+				}
+			} 
 		}
-		
-		console.log(delta); 
-		them.onUpdate(); 
-		
-		for (i in delta) {
-			this.stock[i].price += delta[i].price;
-			console.log("changed price");
-			this.stock[i].quantity += delta[i].quantity;
-			console.log("changed quantity");
-		}
-		
-		console.log(delta); 
-		them.onUpdate(); 
+
+		anyStore.stock = productList; 
+		anyStore.onUpdate(); 
 		
 		if (onSync) {
-			console.log("balls");
 			onSync(delta);
 		}
 		
@@ -73,8 +45,6 @@ Store.prototype.syncWithServer = function(onSync) {
 			console.log("Error code:" + error);
 		}
 	);
-
-	
 }
 
 var load = 0;
