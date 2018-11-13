@@ -1,4 +1,4 @@
-var store;
+
 var inactiveTime = 0; 
 var second = setInterval(increment, 1000);
 
@@ -17,13 +17,11 @@ Store.prototype.syncWithServer = function(onSync) {
 		// First synchronization as store has no stock
 		if (Object.keys(store.stock).length === 0 && store.stock.constructor === Object) {
 			store.stock = productList;
-			console.log(productList);
 		}
 		
 		var delta = {};
 		
 		for (i in productList) {
-			console.log(productList[i]);
 			var currentQuantity = 0;
 			
 			if (store.cart[i] == undefined) {
@@ -40,21 +38,11 @@ Store.prototype.syncWithServer = function(onSync) {
 				console.log(delta);
 			}
 		}
-		/* console.log("divine intellect");
 		console.log(delta);
-		
-		store.stock = productList;
-		for (object in delta) {
-			if (delta[object].quantity != 0 || delta[object].price != 0) {
-				store.stock[object].quantity = store.stock[object].quantity + delta[object].quantity;
-				store.stock[object].price = store.stock[object].price + delta[object].price;
-			}
-		}
-		console.log(delta); */
-		
 		store.onUpdate(); 
 		
-		if (onSync) {
+		if (onSync != undefined) {
+			console.log("balls");
 			onSync(delta);
 			
 		}
@@ -64,12 +52,14 @@ Store.prototype.syncWithServer = function(onSync) {
 
 		
 		function(error) {
-		
+			console.log("Error code:" + error);
 		}
 	);
 
 	
 }
+
+var store;
 
 window.onload = function () {
 	store = new Store("https://cpen400a-bookstore.herokuapp.com");
@@ -94,7 +84,6 @@ function ajaxGet(url, onSuccess, onError) {
 	
 	request.onload = function() {
 		if(request.status == 200) {
-			console.log((request.responseText));
 			onSuccess(JSON.parse(request.responseText));
 		} else { 
 			if (count500 < 3) {
