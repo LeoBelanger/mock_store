@@ -10,38 +10,70 @@ function Store(serverUrl) {
 }
 
 Store.prototype.syncWithServer = function(onSync) {
-	var previousStock = store.stock; 
+	//var previousStock = store.stock; 
 	
 	ajaxGet(store.serverUrl + "/products", 
 		function(productList) {
+		// First synchronization as store has no stock
+		if (Object.keys(store.stock).length === 0 && store.stock.constructor === Object) {
+			store.stock = productList;
+			console.log(productList);
+		}
 		
-		//Update Stock
-		store.stock = productList; 
+		var delta = {};
+		
+		for (i in productList) {
+			console.log(productList[i]);
+			var currentQuantity = 0;
+			
+			if (store.cart[i] == undefined) {
+				currentQuantity = store.stock[i].quantity;
+			} else {
+				currentQuantity = store.stock[i].quantity + store.cart[i];
+			}
+			
+			if (productList[i].price != store.stock[i].price ||
+			productList[i].quantity != currentQuantity) {
+				delta[i] = {};
+				delta[i].price = productList[i].price - store.stock[i].price;
+				delta[i].quantity = productList[i].quantity - currentQuantity;
+				console.log(delta);
+			}
+		}
+		/* console.log("divine intellect");
+		console.log(delta);
+		
+		store.stock = productList;
+		for (object in delta) {
+			if (delta[object].quantity != 0 || delta[object].price != 0) {
+				store.stock[object].quantity = store.stock[object].quantity + delta[object].quantity;
+				store.stock[object].price = store.stock[object].price + delta[object].price;
+			}
+		}
+		console.log(delta); */
+		
 		store.onUpdate(); 
-		}, 
+		
+		if (onSync) {
+			onSync(delta);
+			
+		}
+		
+		},
+
+
+		
 		function(error) {
 		
 		}
 	);
+
 	
-	var delta = {};
-	for (object in previousStock) {
-		if(object.price != productList[object].price) {
-			delta.push(object);
-			delta[object].price = productList[object].price - previousStock[object].price;
-		}
-		if(object.quantity != productList[object].quantity) {
-			if (!(object in delta)) {
-				delta.push(object);
-			}
-			delta[object].quantity = productList[object].quantity - previousStock[object].quantity;
-		}
-	}
 }
 
 window.onload = function () {
 	store = new Store("https://cpen400a-bookstore.herokuapp.com");
-	
+	store.syncWithServer();
 	store.onUpdate = function(itemName) {
 		if (itemName !== undefined) {
 			renderProduct(document.getElementById("product-" + itemName), store, itemName);
@@ -57,12 +89,12 @@ var countTimeout = 0
 function ajaxGet(url, onSuccess, onError) {
 	
 	var request = new XMLHttpRequest();
-	request.timeout = 2000;
+	request.timeout = 500;
 	request.open("GET", url);
 	
 	request.onload = function() {
 		if(request.status == 200) {
-			console.log(JSON.parse(request.responseText));
+			console.log((request.responseText));
 			onSuccess(JSON.parse(request.responseText));
 		} else { 
 			if (count500 < 3) {
