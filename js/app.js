@@ -47,7 +47,8 @@ Store.prototype.syncWithServer = function(onSync) {
 	);
 }
 
-var load = 0;
+
+
 window.onload = function () {
 	
 	store = new Store("https://cpen400a-bookstore.herokuapp.com");
@@ -241,13 +242,12 @@ function renderCart(container, storeInstance) {
 	var checkoutButton = document.createElement("button");
 	var checkoutButtonNode = document.createTextNode("Check Out");
 	checkoutButton.setAttribute("id", "btn-check-out"); 
-	checkoutButton.setAttribute("onclick", "store.checkOut()");
+	checkoutButton.setAttribute("onclick", "disableButton()");
 	checkoutButton.appendChild(checkoutButtonNode);
 	container.appendChild(checkoutButton);
-	storeInstance.checkOut(function() {
-		document.getElementById("btn-check-out").disabled = false;
-		console.log("do we get here");
-	});
+	
+	
+	
 	
 	var table = document.createElement("table");
 	table.setAttribute("id", "cartTable");
@@ -327,6 +327,25 @@ function hideCart() {
 	modal.style.display = "none";
 }
 
+function disableButton() {
+	document.getElementById("btn-check-out").disabled = true;
+	console.log(document.getElementById("btn-check-out").disabled);
+	store.checkOut(function() {
+		document.getElementById("btn-check-out").disabled = false;
+	});
+	console.log(document.getElementById("btn-check-out").disabled);
+}
+
+Store.prototype.checkOut = function(onFinish) {
+	
+	
+
+	onFinish();
+	//console.log(document.getElementById("btn-check-out").disabled);
+	//syncWithServer(function(delta));
+}
+
+
 function increment() {
 	inactiveTime++;
 	
@@ -336,10 +355,3 @@ function increment() {
 	}
 }
 
-Store.prototype.checkOut = function(onFinish) {
-	document.getElementById("btn-check-out").disabled = true;
-	console.log(document.getElementById("btn-check-out").disabled);
-	onFinish();
-	console.log(document.getElementById("btn-check-out").disabled);
-	//syncWithServer(function(delta));
-}
