@@ -28,7 +28,7 @@ Store.prototype.syncWithServer = function(onSync) {
 						console.log("if 1");
 						delta[obj].price = productList[obj].price - store.stock[obj].price; 
 					}
-					if((store.stock[obj].quantity) != (productList[obj].quantity + store.cart[obj])) {
+					if((store.stock[obj].quantity + store.cart[obj]) != productList[obj].quantity) {
 						console.log("if 2");
 						delta[obj].quantity = productList[obj].quantity - (store.stock[obj].quantity + store.cart[obj]);
 					}
@@ -351,28 +351,70 @@ function hideCart() {
 
 
 Store.prototype.checkOut = function(onFinish) {
+	var changes = {};
+	
 	this.syncWithServer(function(delta) {
+		changes = delta; 
+		var overallChanges = "";
 		
-		console.log(delta); 
 		//Task 4B: Check delta, if it has values, indicate what they are to the user. 
-		if(delta) {
+		if(delta != undefined) {
 			console.log(delta);
+			var change = false;
+			for (i in delta) {
+				if (delta[i].price != undefined || delta[i].quantity != undefined) {
+					overallChanges = overallChanges.concat(i + ": ");
+				}
+				if (delta[i].price != undefined) {
+					overallChanges = overallChanges.concat("Price changed by: $", delta[i].price);
+					overallChanges = overallChanges.concat(" ");
+					change = true; 
+				}
+				if (delta[i].quantity != undefined) {
+					overallChanges = overallChanges.concat("Quantity changed by: ", delta[i].quantity);
+					overallChanges = overallChanges.concat("\n");
+					change = true; 
+				}
+			}
 			
-			var itemsList = Object.entries(delta);
-			/*for(i in itemsList) {
-				var price = item[i].price; 
-				var quantity = item[i].quantity; 
-			}*/
-				
-			console.log(itemsList);
+			console.log(overallChanges);
 			
+			if(change) {
+				alert(overallChanges);
+			}
 		}
-	
-	
 	});
 	
 	if(onFinish != undefined) {
-		onFinish();
+		var totalPrice = 0; 
+		var enableCheckout = true; 
+		
+		onFinish(); 
+		
+		for(obj in store.cart) {
+			
+			console.log(changes);
+			if(changes[obj]) {
+				enableCheckout = false;
+			}
+			
+			/*
+			if (store.cart[obj] > store.stock[obj].quantity) {
+				alert("Stock of " + obj + " is too low");
+				enableCheckout = false; 
+			}*/
+		}
+		
+		for(i in store.cart) {
+			totalPrice += store.cart[i] * store.stock[i].price;
+		}
+		
+		if(enableCheckout) {
+			alert("The total price is: " + totalPrice);
+		}
+		if(enableCheckout == false) {
+			alert("Changes were made when synchronizing with the server.");
+		}
 	}
 }
 
