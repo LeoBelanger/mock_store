@@ -15,48 +15,36 @@ Store.prototype.syncWithServer = function(onSync) {
 	
 	ajaxGet(store.serverUrl + "/products", 
 		function(productList) {
-	
-		//Calculate Delta
-		var delta = {};
-		
-		for (obj in productList) {
-			//Check if the item is currently in the stock. We can't make calculations with it if it is undefined
-			if(store.stock[obj] != undefined) {
-				if(store.cart[obj] != undefined) {
-					delta[obj] = {}; 
-					if(store.stock[obj].price != productList[obj].price) {
-						console.log("if 1");
-						delta[obj].price = productList[obj].price - store.stock[obj].price; 
-					}
-					if((store.stock[obj].quantity + store.cart[obj]) != productList[obj].quantity) {
-						console.log("if 2");
-						delta[obj].quantity = productList[obj].quantity - (store.stock[obj].quantity + store.cart[obj]);
-					}
-				} else {
-					delta[obj] = {}; 
-					if(store.stock[obj].price != productList[obj].price) {
-						console.log("if 3");
-						delta[obj].price = productList[obj].price - store.stock[obj].price; 
-					}
-					if((store.stock[obj].quantity) != productList[obj].quantity) {
-						console.log("if 4");
-						delta[obj].quantity = productList[obj].quantity - store.stock[obj].quantity;
+			var delta = {};
+			
+			for (obj in productList) {
+				if(store.stock[obj] != undefined) {
+					if(store.cart[obj] != undefined) {
+						delta[obj] = {}; 
+						if(store.stock[obj].price != productList[obj].price) {
+							delta[obj].price = productList[obj].price - store.stock[obj].price; 
+						}
+						if((store.stock[obj].quantity + store.cart[obj]) != productList[obj].quantity) {
+							delta[obj].quantity = productList[obj].quantity - (store.stock[obj].quantity + store.cart[obj]);
+						}
+					} else {
+						delta[obj] = {}; 
+						if(store.stock[obj].price != productList[obj].price) {
+							delta[obj].price = productList[obj].price - store.stock[obj].price; 
+						}
+						if((store.stock[obj].quantity) != productList[obj].quantity) {
+							delta[obj].quantity = productList[obj].quantity - store.stock[obj].quantity;
+						}
 					}
 				}
 			}
-		}
-			
-		
-		console.log(delta);
 
-		anyStore.stock = productList; 
-		anyStore.onUpdate(); 
-		
-		
-		if (onSync) {
-			onSync(delta);
-		}
-		
+			anyStore.stock = productList; 
+			anyStore.onUpdate(); 
+			
+			if (onSync) {
+				onSync(delta);
+			}
 		},
 
 		function(error) {
@@ -382,8 +370,10 @@ Store.prototype.checkOut = function(onFinish) {
 			if(change) {
 				alert(overallChanges);
 			}
-		}
+		} 
 	});
+	
+	
 	
 	if(onFinish != undefined) {
 		var totalPrice = 0; 
@@ -392,17 +382,9 @@ Store.prototype.checkOut = function(onFinish) {
 		onFinish(); 
 		
 		for(obj in store.cart) {
-			
-			console.log(changes);
 			if(changes[obj]) {
 				enableCheckout = false;
 			}
-			
-			/*
-			if (store.cart[obj] > store.stock[obj].quantity) {
-				alert("Stock of " + obj + " is too low");
-				enableCheckout = false; 
-			}*/
 		}
 		
 		for(i in store.cart) {
