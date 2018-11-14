@@ -22,18 +22,36 @@ Store.prototype.syncWithServer = function(onSync) {
 		for (obj in productList) {
 			//Check if the item is currently in the stock. We can't make calculations with it if it is undefined
 			if(store.stock[obj] != undefined) {
-				delta[obj] = {}; 
-				if(store.stock[obj].price != productList[obj].price) {
-					delta[obj].price = productList[obj].price - store.stock[obj].price; 
+				if(store.cart[obj] != undefined) {
+					delta[obj] = {}; 
+					if(store.stock[obj].price != productList[obj].price) {
+						console.log("if 1");
+						delta[obj].price = productList[obj].price - store.stock[obj].price; 
+					}
+					if((store.stock[obj].quantity) != (productList[obj].quantity + store.cart[obj])) {
+						console.log("if 2");
+						delta[obj].quantity = productList[obj].quantity - (store.stock[obj].quantity + store.cart[obj]);
+					}
+				} else {
+					delta[obj] = {}; 
+					if(store.stock[obj].price != productList[obj].price) {
+						console.log("if 3");
+						delta[obj].price = productList[obj].price - store.stock[obj].price; 
+					}
+					if((store.stock[obj].quantity) != productList[obj].quantity) {
+						console.log("if 4");
+						delta[obj].quantity = productList[obj].quantity - store.stock[obj].quantity;
+					}
 				}
-				if((store.stock[obj].quantity + store.cart[obj]) != productList[obj].quantity) {
-					delta[obj].quantity = productList[obj].quantity - (store.stock[obj].quantity + store.cart[obj]);
-				}
-			} 
+			}
 		}
+			
+		
+		console.log(delta);
 
 		anyStore.stock = productList; 
 		anyStore.onUpdate(); 
+		
 		
 		if (onSync) {
 			onSync(delta);
@@ -333,8 +351,24 @@ function hideCart() {
 
 
 Store.prototype.checkOut = function(onFinish) {
-	syncWithServer(function(delta) {
+	this.syncWithServer(function(delta) {
+		
+		console.log(delta); 
 		//Task 4B: Check delta, if it has values, indicate what they are to the user. 
+		if(delta) {
+			console.log(delta);
+			
+			var itemsList = Object.entries(delta);
+			/*for(i in itemsList) {
+				var price = item[i].price; 
+				var quantity = item[i].quantity; 
+			}*/
+				
+			console.log(itemsList);
+			
+		}
+	
+	
 	});
 	
 	if(onFinish != undefined) {
