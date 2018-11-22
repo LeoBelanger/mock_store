@@ -25,8 +25,13 @@ function StoreDB(mongoUrl, dbName){
 }
 
 StoreDB.prototype.getProducts = function(queryParams){
+	var Products = {}; 
+	
 	return this.connected.then(function(db){
-		// TODO: Implement functionality
+		console.log("here");
+		db.collection("products").find().toArray(function(err, result) {
+			
+		}); 
 	})
 }
 

@@ -1,6 +1,8 @@
 // Require dependencies
 var path = require('path');
 var express = require('express');
+var storeDB = require('./StoreDB');
+var db = storeDB('mongodb://127.0.0.1:27017', 'products');
 
 // Declare application parameters
 var PORT = process.env.PORT || 3000;
@@ -28,9 +30,20 @@ app.use('/', express.static(STATIC_ROOT));			// Serve STATIC_ROOT at URL "/" as 
 
 // Configure '/products' endpoint
 app.get('/products', function(request, response) {
-	response.json({
-		Example: 'This is an Example!'
-	});
+	/*response.json({
+		//Example: 'This is an Example!'
+		car: 50
+	});*/
+	var testReq = {
+		minPrice: 10,
+		maxPrice: 100,
+		category: "All Items"
+	}
+	var jsonRes = db.getProducts(testReq);
+	// response.json(jsonRes);
+	//response.send(200, jsonRes);
+	console.log(jsonRes); 
+	response.status(200).send(jsonRes);
 });
 
 // Start listening on TCP port

@@ -176,6 +176,9 @@ function renderProduct(container, storeInstance, itemName) {
 	while (container.firstChild != null) {
 		container.removeChild(container.firstChild);
 	}
+	console.log(displayed);
+	console.log(itemName);
+	console.log(storeInstance.stock[itemName]);
 	
 	var addButton = document.createElement("BUTTON");
 	var addButtonLabelNode = document.createTextNode("Add to Cart");
@@ -221,6 +224,7 @@ function renderProduct(container, storeInstance, itemName) {
 }
 
 function renderProductList(container, storeInstance) {
+	console.log(storeInstance);
 	while (container.firstChild != null) {
 		container.removeChild(container.firstChild);
 	}
