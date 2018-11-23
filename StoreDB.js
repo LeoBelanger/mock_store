@@ -30,7 +30,7 @@ StoreDB.prototype.getProducts = function(queryParams){
 			//Check query 
 			var queryObj = {}; 
 			
-			console.log("QueryParams: ", + queryParams); 
+			console.log("QueryParams: ", queryParams); 
 			
 			if(queryParams.minPrice != undefined) {
 				queryObj.price["$gte"] = Number(queryParams.minPrice);
@@ -44,11 +44,11 @@ StoreDB.prototype.getProducts = function(queryParams){
 				queryObj.category = {"$eq": queryParams.category};
 			}
 			
-			console.log(queryObj); 
+			//console.log(queryObj); 
 			
 			db.collection("products").find(queryObj).toArray(function(err, result) {
 				if(err) {
-					console.log(err);
+					//console.log(err);
 					reject(err);
 				} else {
 					//console.log("Returning a promise to getProducts", +  result);

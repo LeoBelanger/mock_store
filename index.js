@@ -33,14 +33,12 @@ app.get('/products', function(request, response) {
 	var query = request.query;
 	var productsPromise = db.getProducts(query);
 	
-	productsPromise.then(function(result) {
-		//console.log(result); 
+	productsPromise.then(function(result) { 
+		console.log("result: ", result); 
 		response.json(result); 
 	}, function(err) {
 		response.status(500).send(err); 
 	});
-	
-	
 });
 
 // Start listening on TCP port
