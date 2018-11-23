@@ -16,7 +16,7 @@ Store.prototype.syncWithServer = function(onSync) {
 	
 	ajaxGet(store.serverUrl + "/products", 
 		function(productList) {
-			var delta = {};
+			var delta = productList;
 			
 			for (obj in productList) {
 				if(store.stock[obj] != undefined) {
@@ -57,9 +57,9 @@ Store.prototype.syncWithServer = function(onSync) {
 
 
 window.onload = function () {
-	
 	store = new Store("http://localhost:3000");
 	store.syncWithServer(function(delta) {
+		console.log("DELTA: ", delta); 
 		displayed = Object.keys(delta);
 		renderProductList(document.getElementById("productView"), store); 
 	});
@@ -176,6 +176,9 @@ function renderProduct(container, storeInstance, itemName) {
 	while (container.firstChild != null) {
 		container.removeChild(container.firstChild);
 	}
+	console.log("Render Product displayed: ", displayed);
+	console.log(itemName);
+	console.log(storeInstance.stock[itemName]);
 	
 	var addButton = document.createElement("BUTTON");
 	var addButtonLabelNode = document.createTextNode("Add to Cart");
@@ -221,13 +224,14 @@ function renderProduct(container, storeInstance, itemName) {
 }
 
 function renderProductList(container, storeInstance) {
+	console.log(storeInstance);
 	while (container.firstChild != null) {
 		container.removeChild(container.firstChild);
 	}
 	
 	var productList = document.createElement("UL");
 	productList.setAttribute("id", "productList"); 
-	
+	console.log("displayed in renderprodlist:", displayed);
 	for (var itemName in displayed) {
 		var productBox = document.createElement("LI");
 		productBox.setAttribute("class", "product");
@@ -465,6 +469,7 @@ function renderMenu(container, storeInstance){
 					}
 					else {
 						displayed = Object.keys(products);
+						console.log("Displayed = ", displayed); 
 						renderProductList(document.getElementById('productView'), storeInstance);
 					}
 				});

@@ -1,6 +1,8 @@
 // Require dependencies
 var path = require('path');
 var express = require('express');
+var StoreDB = require('./StoreDB');
+var db = new StoreDB('mongodb://127.0.0.1:27017', 'cpen400a-bookstore');
 
 // Declare application parameters
 var PORT = process.env.PORT || 3000;
@@ -28,8 +30,14 @@ app.use('/', express.static(STATIC_ROOT));			// Serve STATIC_ROOT at URL "/" as 
 
 // Configure '/products' endpoint
 app.get('/products', function(request, response) {
-	response.json({
-		Example: 'This is an Example!'
+	var query = request.query;
+	var productsPromise = db.getProducts(query);
+	
+	productsPromise.then(function(result) {  
+		response.json(result); 
+	}, function(err) {
+		console.log("ERROR:", err);
+		response.status(500).send(err); 
 	});
 });
 
