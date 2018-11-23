@@ -57,10 +57,10 @@ Store.prototype.syncWithServer = function(onSync) {
 
 
 window.onload = function () {
-	
 	store = new Store("http://localhost:3000");
 	store.syncWithServer(function(delta) {
 		displayed = Object.keys(delta);
+		console.log("displayed in window.onload: ", + displayed);
 		renderProductList(document.getElementById("productView"), store); 
 	});
 	store.onUpdate = function(itemName) {
@@ -231,7 +231,7 @@ function renderProductList(container, storeInstance) {
 	
 	var productList = document.createElement("UL");
 	productList.setAttribute("id", "productList"); 
-	
+	console.log("displayed in renderprodlist:", + displayed);
 	for (var itemName in displayed) {
 		var productBox = document.createElement("LI");
 		productBox.setAttribute("class", "product");
@@ -469,6 +469,7 @@ function renderMenu(container, storeInstance){
 					}
 					else {
 						displayed = Object.keys(products);
+						console.log("Displayed = ", + displayed); 
 						renderProductList(document.getElementById('productView'), storeInstance);
 					}
 				});
