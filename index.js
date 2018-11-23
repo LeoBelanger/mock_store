@@ -33,10 +33,10 @@ app.get('/products', function(request, response) {
 	var query = request.query;
 	var productsPromise = db.getProducts(query);
 	
-	productsPromise.then(function(result) { 
-		console.log("result: ", result); 
+	productsPromise.then(function(result) {  
 		response.json(result); 
 	}, function(err) {
+		console.log("ERROR:", err);
 		response.status(500).send(err); 
 	});
 });

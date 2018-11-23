@@ -25,33 +25,47 @@ function StoreDB(mongoUrl, dbName){
 }
 
 StoreDB.prototype.getProducts = function(queryParams){
+	var queryObj = {};
 	return this.connected.then(function(db){
 		return new Promise(function(resolve, reject) {
-			//Check query 
-			var queryObj = {}; 
+			 
 			
+			console.log(queryObj); 
 			console.log("QueryParams: ", queryParams); 
 			
 			if(queryParams.minPrice != undefined) {
-				queryObj.price["$gte"] = Number(queryParams.minPrice);
+				if(queryObj.price != undefined) {
+					queryObj.price["$gte"] = Number(queryParams.minPrice);
+				}else {
+					queryObj.price = {};
+					queryObj.price["$gte"] = Number(queryParams.minPrice);
+				}
+				
 			}
 			
 			if(queryParams.maxPrice != undefined) {
-				queryObj.price["$lte"] = Number(queryParams.maxPrice);
+				if(queryObj.price != undefined) {
+					queryObj.price["$lte"] = Number(queryParams.maxPrice);
+				}else {
+					queryObj.price = {};
+					queryObj.price["$lte"] = Number(queryParams.maxPrice);
+				}
 			}
 			
 			if(queryParams.category != undefined) {
+				queryObj.category = {};
 				queryObj.category = {"$eq": queryParams.category};
-			}
+			} 
+				
 			
-			//console.log(queryObj); 
 			
+			console.log(queryObj); 
+
 			db.collection("products").find(queryObj).toArray(function(err, result) {
 				if(err) {
-					//console.log(err);
+					console.log(err);
 					reject(err);
 				} else {
-					//console.log("Returning a promise to getProducts", +  result);
 					resolve(result); 
 				}
 			});
