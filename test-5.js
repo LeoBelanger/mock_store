@@ -281,6 +281,9 @@ var TESTS = {
                 }).then(data => {
                     marks += 1;
                     return
+                }, error => {
+                    comments.push("Server endpoint rejected the request. Server message: " + error.message);
+                    return
                 })
             }));
             subtests.push(ready.then(() => {
@@ -413,7 +416,7 @@ function httpPost(url, data) {
         const req = http.request(options, res => {
             let error;
             if (res.statusCode !== 200) {
-                error = new Error(`Status Code: ${res.statusCode}`);
+                error = new Error(`Error ${res.statusCode} - ${res.statusMessage}`);
                 error.statusCode = res.statusCode
             }
             if (error) {
