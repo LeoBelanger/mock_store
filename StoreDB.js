@@ -83,7 +83,22 @@ StoreDB.prototype.getProducts = function(queryParams){
 
 StoreDB.prototype.addOrder = function(order){
 	return this.connected.then(function(db){
-		// TODO: Implement functionality
+		return new Promise(function(resolve, reject) {
+			console.log("Initializing order... ", order);
+				
+			db.collection("orders").insert(order, function(err, result) {
+				if(err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+			});
+			
+			//Reduce Quantity in Products Collection
+			for(var item in order.cart) {
+				db.collection("products").update({_id: item}, {$inc: {quantity: - order.cart[item]}}); 
+			}
+		})
 	})
 }
 

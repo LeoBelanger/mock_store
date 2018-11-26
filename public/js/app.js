@@ -16,7 +16,8 @@ Store.prototype.syncWithServer = function(onSync) {
 	
 	ajaxGet(store.serverUrl + "/products", 
 		function(productList) {
-			var delta = productList;
+			var delta = {};
+			
 			console.log(productList);
 			for (obj in productList) {
 				if(store.stock[obj] != undefined) {
@@ -53,7 +54,6 @@ Store.prototype.syncWithServer = function(onSync) {
 		}
 	);
 }
-
 
 
 window.onload = function () {
@@ -118,6 +118,34 @@ function ajaxGet(url, onSuccess, onError) {
 	}
 	
 	request.send();
+}
+
+function ajaxPost(url, data, onSuccess, onError) {
+	
+	var request = new XMLHttpRequest();
+	request.timeout = 500;
+	request.open("POST", url);
+	request.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+	
+	request.onload = function() {
+		if(request.status == 200) {
+			onSuccess(JSON.parse(request.responseText));
+		} else {
+			onError(request.status);
+			console.log("Error Code: 500");
+		}
+	}
+	
+	request.ontimeout = function() {
+		onError(request.status);
+		console.log("POST Timeout"); 
+	}
+	
+	request.onerror = function() {
+		console.log("Error with server");
+	}
+	
+	request.send(JSON.stringify(data));
 }
 
 document.onkeydown = function(e) {

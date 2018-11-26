@@ -42,6 +42,18 @@ app.get('/products', function(request, response) {
 	});
 });
 
+app.post('/checkout', function(request, response) {
+	var order = request.body;
+	var orderPromise = db.addOrder(order);
+	
+	orderPromise.then(function(result) {
+		response.status(200).send(JSON.stringify(result));
+	}, function (err) {
+		console.log("Error: ", err);
+		response.status(500).send(err);
+	});
+});
+
 // Start listening on TCP port
 app.listen(PORT, function(){
     console.log('Express.js server started, listening on PORT '+PORT);
