@@ -6,7 +6,7 @@ var displayed = [];
 function Store(serverUrl) {	
     this.serverUrl = serverUrl;
 	this.stock = {};
-	this.cart = [];
+	this.cart = {};
 	this.onUpdate = null;
 }
 
@@ -437,10 +437,10 @@ Store.prototype.checkOut = function(onFinish) {
 			var randomId = Math.floor((Math.random() * 1000) + 1);
 			var order = {
 				"client_id": randomId,
-				"cart": store.cart,
+				"cart": self.cart,
 				"total": totalPrice
 			};
-	
+			console.log(order);
 			ajaxPost("http://localhost:3000/checkout", order,
 				function(response){
 					alert("Successfully checked out!");
