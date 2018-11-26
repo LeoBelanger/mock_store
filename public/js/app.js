@@ -435,7 +435,7 @@ Store.prototype.checkOut = function(onFinish) {
 			var self = this;
 			var randomId = Math.floor((Math.random() * 1000) + 1);
 			var order = {
-				"client_id": randomId,
+				"client_id": String(randomId),
 				"cart": self.cart,
 				"total": totalPrice
 			};
