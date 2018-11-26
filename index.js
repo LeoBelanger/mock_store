@@ -34,7 +34,8 @@ app.get('/products', function(request, response) {
 	var productsPromise = db.getProducts(query);
 	
 	productsPromise.then(function(result) {  
-		response.json(result); 
+		response.status(200).send(JSON.stringify(result));
+		console.log("JSON looks like: ", JSON.stringify(result));
 	}, function(err) {
 		console.log("ERROR:", err);
 		response.status(500).send(err); 

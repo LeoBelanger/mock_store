@@ -17,7 +17,7 @@ Store.prototype.syncWithServer = function(onSync) {
 	ajaxGet(store.serverUrl + "/products", 
 		function(productList) {
 			var delta = productList;
-			
+			console.log(productList);
 			for (obj in productList) {
 				if(store.stock[obj] != undefined) {
 					if(store.cart[obj] != undefined) {
@@ -61,11 +61,12 @@ window.onload = function () {
 	store.syncWithServer(function(delta) {
 		console.log("DELTA: ", delta); 
 		displayed = Object.keys(delta);
+		console.log("on load displayed: ", displayed);
 		renderProductList(document.getElementById("productView"), store); 
 	});
 	store.onUpdate = function(itemName) {
 		if (itemName !== undefined) {
-			renderProduct(document.getElementById("product-" + itemName), store, itemName);
+			renderProduct(document.getElementById("product-", itemName), store, itemName);
 			renderCart(document.getElementById("modal-content"), store);
 		}
 		renderProductList(document.getElementById("productView"), store); 
@@ -177,6 +178,7 @@ function renderProduct(container, storeInstance, itemName) {
 		container.removeChild(container.firstChild);
 	}
 	console.log("Render Product displayed: ", displayed);
+	console.log(storeInstance);
 	console.log(itemName);
 	console.log(storeInstance.stock[itemName]);
 	
@@ -232,10 +234,12 @@ function renderProductList(container, storeInstance) {
 	var productList = document.createElement("UL");
 	productList.setAttribute("id", "productList"); 
 	console.log("displayed in renderprodlist:", displayed);
-	for (var itemName in displayed) {
+	for (var i = 0; i < displayed.length; i++) {
+		var itemName = displayed[i];
+		console.log(itemName);
 		var productBox = document.createElement("LI");
 		productBox.setAttribute("class", "product");
-		productBox.setAttribute("id", "product-" + itemName);
+		productBox.setAttribute("id", "product-", itemName);
 		var temp = renderProduct(productBox, storeInstance, itemName);
 		productList.appendChild(temp);
 	}
