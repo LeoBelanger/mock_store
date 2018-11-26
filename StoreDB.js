@@ -56,17 +56,25 @@ StoreDB.prototype.getProducts = function(queryParams){
 				queryObj.category = {};
 				queryObj.category = {"$eq": queryParams.category};
 			} 
-				
-			
 			
 			console.log(queryObj); 
 
 			db.collection("products").find(queryObj).toArray(function(err, result) {
+
+				
 				if(err) {
 					console.log(err);
 					reject(err);
 				} else {
-					resolve(result); 
+					var returnResult = {};
+					for (var i = 0; i < result.length; i++) {
+						var product = result[i];
+						console.log("product: ", product);
+						returnResult[product._id] = product;
+						delete returnResult[product._id]["_id"];
+					}
+					console.log("return result: ", returnResult);
+					resolve(returnResult); 
 				}
 			});
 		});
