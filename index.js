@@ -43,18 +43,21 @@ app.get('/products', function(request, response) {
 
 app.post('/checkout', function(request, response) {
 	var order = request.body;
-	
-	if (order.client_id == null ||  order.client_id == undefined || typeof(client_id) != String) {
-		response.status(500).send();
+
+
+	if (order.client_id == null || order.client_id == undefined || typeof(order.client_id) !== "string") {
+		response.status(500).send("error");
 	}
 	
 	if (order.cart == null || order.cart == undefined) {
-		response.status(500).send();
+		response.status(500).send("error");
 	}
 	
-	if (order.total == null || order.total == undefined || typeof(order.total) != Number) {
-		response.status(500).send();
-	}
+	if (order.total == null || order.total == undefined || typeof(order.total) !== "number") {
+		response.status(500).send("error");
+	} 
+
+	
 	var orderPromise = db.addOrder(order);
 	
 	orderPromise.then(function(result) {
