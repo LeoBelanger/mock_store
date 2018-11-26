@@ -38,6 +38,10 @@ Store.prototype.syncWithServer = function(onSync) {
 							delta[obj].quantity = productList[obj].quantity - store.stock[obj].quantity;
 						}
 					}
+				} else {
+					delta[obj] = {}; 
+					delta[obj].price = productList[obj].price; 
+					delta[obj].quantity = productList[obj].quantity;
 				}
 			}
 
@@ -61,7 +65,6 @@ window.onload = function () {
 	store.syncWithServer(function(delta) {
 		console.log("DELTA: ", delta); 
 		displayed = Object.keys(delta);
-		console.log("on load displayed: ", displayed);
 		renderProductList(document.getElementById("productView"), store); 
 	});
 	store.onUpdate = function(itemName) {
@@ -103,13 +106,11 @@ function ajaxGet(url, onSuccess, onError) {
 	
 	request.ontimeout = function() {
 		if (countTimeout < 3) {
-			console.log("In Timeout, Count = " + countTimeout); 
 			countTimeout++;
 			ajaxGet(url, onSuccess, onError);
 		} else {
 			onError(request.status);
 			countTimeout = 0;
-			console.log("goes to error");
 		}
 	}
 	
@@ -154,8 +155,6 @@ document.onkeydown = function(e) {
 		modal.style.display = "none";
 	}
 }
-
-
 
 Store.prototype.addItemToCart = function(itemName) {
 	inactiveTime = 0;
