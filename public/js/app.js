@@ -433,7 +433,24 @@ Store.prototype.checkOut = function(onFinish) {
 		}
 		
 		if(enableCheckout) {
-			alert("The total price is: " + totalPrice);
+			var self = this;
+			var randomId = Math.floor((Math.random() * 1000) + 1);
+			var order = {
+				"client_id": randomId,
+				"cart": store.cart,
+				"total": totalPrice
+			};
+	
+			ajaxPost("http://localhost:3000/checkout", order,
+				function(response){
+					alert("Successfully checked out!");
+					self.cart = {};
+					self.onUpdate();
+				},
+				function(error){
+					alert("Error during POST: ", error);
+				}
+			);
 		}
 		if(enableCheckout == false) {
 			alert("Changes were made when synchronizing with the server.");
