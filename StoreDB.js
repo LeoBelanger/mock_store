@@ -74,6 +74,19 @@ StoreDB.prototype.getProducts = function(queryParams){
 
 StoreDB.prototype.addOrder = function(order){
 	return this.connected.then(function(db){
+		
+		if (order.client_id == null || order.client_id == undefined || typeof(order.client_id) !== "string") {
+			response.status(500).send("error");
+		}
+		
+		if (order.cart == null || order.cart == undefined) {
+			response.status(500).send("error");
+		}
+		
+		if (order.total == null || order.total == undefined || typeof(order.total) !== "number") {
+			response.status(500).send("error");
+		} 
+		
 		return new Promise(function(resolve, reject) {
 			console.log("Initializing order... ", order);
 				
