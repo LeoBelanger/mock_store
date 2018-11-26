@@ -35,7 +35,6 @@ app.get('/products', function(request, response) {
 	
 	productsPromise.then(function(result) {  
 		response.status(200).send(JSON.stringify(result));
-		console.log("JSON looks like: ", JSON.stringify(result));
 	}, function(err) {
 		console.log("ERROR:", err);
 		response.status(500).send(err); 
@@ -48,7 +47,6 @@ app.post('/checkout', function(request, response) {
 	
 	orderPromise.then(function(result) {
 		response.status(200).send(JSON.stringify(result));
-		console.log("ever get here");
 	}, function (err) {
 		console.log("Error: ", err);
 		response.status(500).send(err);

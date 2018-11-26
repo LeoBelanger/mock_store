@@ -28,11 +28,6 @@ StoreDB.prototype.getProducts = function(queryParams){
 	var queryObj = {};
 	return this.connected.then(function(db){
 		return new Promise(function(resolve, reject) {
-			 
-			
-			console.log(queryObj); 
-			console.log("QueryParams: ", queryParams); 
-			
 			if(queryParams.minPrice != undefined) {
 				if(queryObj.price != undefined) {
 					queryObj.price["$gte"] = Number(queryParams.minPrice);
@@ -56,9 +51,7 @@ StoreDB.prototype.getProducts = function(queryParams){
 				queryObj.category = {};
 				queryObj.category = {"$eq": queryParams.category};
 			} 
-			
-			console.log(queryObj); 
-
+	
 			db.collection("products").find(queryObj).toArray(function(err, result) {
 
 				
@@ -69,11 +62,9 @@ StoreDB.prototype.getProducts = function(queryParams){
 					var returnResult = {};
 					for (var i = 0; i < result.length; i++) {
 						var product = result[i];
-						console.log("product: ", product);
 						returnResult[product._id] = product;
 						delete returnResult[product._id]["_id"];
 					}
-					console.log("return result: ", returnResult);
 					resolve(returnResult); 
 				}
 			});

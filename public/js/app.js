@@ -6,7 +6,7 @@ var displayed = [];
 function Store(serverUrl) {	
     this.serverUrl = serverUrl;
 	this.stock = {};
-	this.cart = [];
+	this.cart = {};
 	this.onUpdate = null;
 }
 
