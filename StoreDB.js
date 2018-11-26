@@ -28,11 +28,6 @@ StoreDB.prototype.getProducts = function(queryParams){
 	var queryObj = {};
 	return this.connected.then(function(db){
 		return new Promise(function(resolve, reject) {
-			 
-			
-			console.log(queryObj); 
-			console.log("QueryParams: ", queryParams); 
-			
 			if(queryParams.minPrice != undefined) {
 				if(queryObj.price != undefined) {
 					queryObj.price["$gte"] = Number(queryParams.minPrice);
@@ -56,17 +51,21 @@ StoreDB.prototype.getProducts = function(queryParams){
 				queryObj.category = {};
 				queryObj.category = {"$eq": queryParams.category};
 			} 
-				
-			
-			
-			console.log(queryObj); 
-
+	
 			db.collection("products").find(queryObj).toArray(function(err, result) {
+
+				
 				if(err) {
 					console.log(err);
 					reject(err);
 				} else {
-					resolve(result); 
+					var returnResult = {};
+					for (var i = 0; i < result.length; i++) {
+						var product = result[i];
+						returnResult[product._id] = product;
+						delete returnResult[product._id]["_id"];
+					}
+					resolve(returnResult); 
 				}
 			});
 		});
@@ -75,7 +74,22 @@ StoreDB.prototype.getProducts = function(queryParams){
 
 StoreDB.prototype.addOrder = function(order){
 	return this.connected.then(function(db){
-		// TODO: Implement functionality
+		return new Promise(function(resolve, reject) {
+			console.log("Initializing order... ", order);
+				
+			db.collection("orders").insert(order, function(err, result) {
+				if(err) {
+					reject(err);
+				} else {
+					resolve(result);
+				}
+			});
+			
+			//Reduce Quantity in Products Collection
+			for(var item in order.cart) {
+				db.collection("products").update({_id: item}, {$inc: {quantity: - order.cart[item]}}); 
+			}
+		})
 	})
 }
 

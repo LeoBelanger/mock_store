@@ -34,10 +34,37 @@ app.get('/products', function(request, response) {
 	var productsPromise = db.getProducts(query);
 	
 	productsPromise.then(function(result) {  
-		response.json(result); 
+		response.status(200).send(JSON.stringify(result));
 	}, function(err) {
 		console.log("ERROR:", err);
 		response.status(500).send(err); 
+	});
+});
+
+app.post('/checkout', function(request, response) {
+	var order = request.body;
+
+
+	if (order.client_id == null || order.client_id == undefined || typeof(order.client_id) !== "string") {
+		response.status(500).send("error");
+	}
+	
+	if (order.cart == null || order.cart == undefined) {
+		response.status(500).send("error");
+	}
+	
+	if (order.total == null || order.total == undefined || typeof(order.total) !== "number") {
+		response.status(500).send("error");
+	} 
+
+	
+	var orderPromise = db.addOrder(order);
+	
+	orderPromise.then(function(result) {
+		response.status(200).send(JSON.stringify(result));
+	}, function (err) {
+		console.log("Error: ", err);
+		response.status(500).send(err);
 	});
 });
 

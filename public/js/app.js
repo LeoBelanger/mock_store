@@ -6,7 +6,7 @@ var displayed = [];
 function Store(serverUrl) {	
     this.serverUrl = serverUrl;
 	this.stock = {};
-	this.cart = [];
+	this.cart = {};
 	this.onUpdate = null;
 }
 
@@ -16,8 +16,9 @@ Store.prototype.syncWithServer = function(onSync) {
 	
 	ajaxGet(store.serverUrl + "/products", 
 		function(productList) {
-			var delta = productList;
+			var delta = {};
 			
+			console.log(productList);
 			for (obj in productList) {
 				if(store.stock[obj] != undefined) {
 					if(store.cart[obj] != undefined) {
@@ -37,6 +38,10 @@ Store.prototype.syncWithServer = function(onSync) {
 							delta[obj].quantity = productList[obj].quantity - store.stock[obj].quantity;
 						}
 					}
+				} else {
+					delta[obj] = {}; 
+					delta[obj].price = productList[obj].price; 
+					delta[obj].quantity = productList[obj].quantity;
 				}
 			}
 
@@ -55,7 +60,6 @@ Store.prototype.syncWithServer = function(onSync) {
 }
 
 
-
 window.onload = function () {
 	store = new Store("http://localhost:3000");
 	store.syncWithServer(function(delta) {
@@ -65,7 +69,7 @@ window.onload = function () {
 	});
 	store.onUpdate = function(itemName) {
 		if (itemName !== undefined) {
-			renderProduct(document.getElementById("product-" + itemName), store, itemName);
+			renderProduct(document.getElementById("product-", itemName), store, itemName);
 			renderCart(document.getElementById("modal-content"), store);
 		}
 		renderProductList(document.getElementById("productView"), store); 
@@ -102,13 +106,11 @@ function ajaxGet(url, onSuccess, onError) {
 	
 	request.ontimeout = function() {
 		if (countTimeout < 3) {
-			console.log("In Timeout, Count = " + countTimeout); 
 			countTimeout++;
 			ajaxGet(url, onSuccess, onError);
 		} else {
 			onError(request.status);
 			countTimeout = 0;
-			console.log("goes to error");
 		}
 	}
 	
@@ -119,14 +121,40 @@ function ajaxGet(url, onSuccess, onError) {
 	request.send();
 }
 
+function ajaxPost(url, data, onSuccess, onError) {
+	
+	var request = new XMLHttpRequest();
+	request.timeout = 500;
+	request.open("POST", url);
+	request.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+	
+	request.onload = function() {
+		if(request.status == 200) {
+			onSuccess(JSON.parse(request.responseText));
+		} else {
+			onError(request.status);
+			console.log("Error Code: 500");
+		}
+	}
+	
+	request.ontimeout = function() {
+		onError(request.status);
+		console.log("POST Timeout"); 
+	}
+	
+	request.onerror = function() {
+		console.log("Error with server");
+	}
+	
+	request.send(JSON.stringify(data));
+}
+
 document.onkeydown = function(e) {
 	if(e.keyCode == 27) {
 		var modal = document.getElementById("modal");
 		modal.style.display = "none";
 	}
 }
-
-
 
 Store.prototype.addItemToCart = function(itemName) {
 	inactiveTime = 0;
@@ -177,6 +205,7 @@ function renderProduct(container, storeInstance, itemName) {
 		container.removeChild(container.firstChild);
 	}
 	console.log("Render Product displayed: ", displayed);
+	console.log(storeInstance);
 	console.log(itemName);
 	console.log(storeInstance.stock[itemName]);
 	
@@ -232,10 +261,12 @@ function renderProductList(container, storeInstance) {
 	var productList = document.createElement("UL");
 	productList.setAttribute("id", "productList"); 
 	console.log("displayed in renderprodlist:", displayed);
-	for (var itemName in displayed) {
+	for (var i = 0; i < displayed.length; i++) {
+		var itemName = displayed[i];
+		console.log(itemName);
 		var productBox = document.createElement("LI");
 		productBox.setAttribute("class", "product");
-		productBox.setAttribute("id", "product-" + itemName);
+		productBox.setAttribute("id", "product-", itemName);
 		var temp = renderProduct(productBox, storeInstance, itemName);
 		productList.appendChild(temp);
 	}
@@ -401,7 +432,24 @@ Store.prototype.checkOut = function(onFinish) {
 		}
 		
 		if(enableCheckout) {
-			alert("The total price is: " + totalPrice);
+			var self = this;
+			var randomId = String(Math.floor(1e7 * Math.random()));
+			var order = {
+				"client_id": String(randomId),
+				"cart": self.cart,
+				"total": totalPrice
+			};
+			console.log(order);
+			ajaxPost("http://localhost:3000/checkout", order,
+				function(response){
+					alert("Successfully checked out!");
+					self.cart = {};
+					self.onUpdate();
+				},
+				function(error){
+					alert("Error during POST: ", error);
+				}
+			);
 		}
 		if(enableCheckout == false) {
 			alert("Changes were made when synchronizing with the server.");
